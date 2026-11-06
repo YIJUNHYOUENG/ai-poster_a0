@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>A0 포스터 D안 — 문제·단계·증거 대조표</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=STIX+Two+Text:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';font-style:normal;font-weight:400;font-display:block;src:url(/_blob/7aecd9586478b9bff32aa626ffe9498e) format('woff2')}
+@font-face{font-family:'Pretendard';font-style:normal;font-weight:500;font-display:block;src:url(/_blob/9c75082732dd3cea95235c1f82198c55) format('woff2')}
+@font-face{font-family:'Pretendard';font-style:normal;font-weight:700;font-display:block;src:url(/_blob/484160b31ce5e7696c870fa303f1d8e0) format('woff2')}
+body{margin:0}
+.dl h2{margin:0 0 20px;font-size:58.67px;line-height:1.15;font-weight:700;letter-spacing:-0.02em;color:#161616}
+.dl .tx{font-size:32px;line-height:1.32;text-wrap:pretty}
+.dl .sm{font-size:29.33px;line-height:1.3;text-wrap:pretty}
+.dl .cap{font-size:24px;line-height:1.3;color:#4A463E}
+.dl .mu{color:#5E594F}
+.dl ul.pb{margin:0;padding-left:36px;font-size:32px;line-height:1.32;text-wrap:pretty}
+.dl ul.pb li{margin:0 0 12px;padding-left:4px}
+.dl ul.pb li:last-child{margin-bottom:0}
+.dl table.pt{border-collapse:collapse;width:100%;font-size:29.33px;line-height:1.3;font-variant-numeric:tabular-nums}
+.dl table.pt th,.dl table.pt td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:2px solid #D5CFC3}
+.dl table.pt th{font-weight:700}
+.dl table.pt tr:last-child td{border-bottom:none}
+.dl table.pn td,.dl table.pn th{text-align:right;padding:8px 6px}
+.dl table.pn td:first-child,.dl table.pn th:first-child{text-align:left}
+.dl .math{font-family:'STIX Two Text','Cambria Math','Latin Modern Math',serif;letter-spacing:0;white-space:nowrap}
+.dl .num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div class="dl" style="--sig: {{accent}}; width: 3179px; height: 4494px; background: #ECE8E0; display: flex; flex-direction: column; font-family: 'Pretendard', 'Noto Sans KR', sans-serif; color: #161616; letter-spacing: -0.01em; word-break: keep-all">
+
+<header data-area="헤더" data-mm="161" style="height: 610px; flex: none; box-sizing: border-box; padding: 100px 113px 0; background: #161616; color: #FFFFFF; display: grid; grid-template-columns: minmax(0, 1fr) 265px; column-gap: 80px; align-items: start">
+<div style="min-width: 0">
+<h1 style="margin: 0; font-size: 112px; line-height: 1.15; font-weight: 700; letter-spacing: -0.03em">에이젠틱 AI를 이용한 자율망에서<br>동적 자원할당 자동화를 위한 구조 및 설계</h1>
+<p style="margin: 14px 0 0; font-size: 45.33px; line-height: 1.25; color: #D9D4CA; white-space: nowrap; letter-spacing: -0.015em">Architecture and Design for Automated Dynamic Resource Allocation in Autonomous Network using Agentic AI</p>
+<p style="margin: 18px 0 0; font-size: 40px; line-height: 1.3; white-space: nowrap">이준형, 김재경, 최윤경, 김양중* · 한국공학대학교 컴퓨터전자공학과 (* 교신저자)</p>
+<p style="margin: 2px 0 0; font-size: 40px; line-height: 1.3; color: #BDB7AB; white-space: nowrap">{ljh040325, 2023531014, dhksejs235, *zeroplus}@tukorea.ac.kr</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 30px">
+<div style="width: 265px; height: 200px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.3; color: #555555">한국공학대학교<br>로고</div>
+<div style="width: 265px; height: 200px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.3; color: #555555">IITP<br>로고</div>
+</div>
+</header>
+
+<div style="height: 3663px; flex: none; margin: 64px 113px 0; display: flex; flex-direction: column; gap: 60px">
+
+<section data-area="연구 배경" data-mm="0" style="flex: none; display: grid; grid-template-columns: 560px minmax(0, 1fr); column-gap: 64px; align-items: start">
+<h2 style="margin: 0">연구 배경과 문제</h2>
+<ul class="pb" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 70px">
+<li style="margin: 0">AI 기반 망관리가 확산되지만, 에이전트에 자원관리를 전적으로 맡기기엔 신뢰와 위험부담 문제가 남아 있다.</li>
+<li style="margin: 0">ITU-T FG-AINN(2024년 7월 SG13 설립)은 PoC로 5G 네트워크 슬라이싱의 AI 기반 관리를 시연했다.</li>
+<li style="margin: 0">PoC 구조의 두 한계: 망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.</li>
+</ul>
+</section>
+
+<section data-area="중심 대조표" data-mm="0" style="flex: none; background: #FFFFFF">
+<div style="display: grid; grid-template-columns: 480px 1690px 655px; column-gap: 64px; font-size: 32px; line-height: 1.2; font-weight: 700; color: #FFFFFF"><div style="background: #948E80; padding: 18px 30px">기존 PoC 구조</div><div style="background: #161616; padding: 18px 30px 18px 120px">제안 구조 — 에이전트 4단계 폐루프</div><div style="background: #161616; padding: 18px 30px">결과</div></div>
+<div style="position: relative">
+<div style="display: grid; grid-template-columns: 480px 1690px 655px; column-gap: 64px"><div style="padding: 36px 0 36px 30px"><p class="sm" style="margin: 0; font-weight: 700; color: #6B655A">상황인지</p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 500; color: #6B655A">망관리자가 직접 지정</p></div><div style="padding: 36px 30px 36px 120px; min-width: 0"><div style="display: grid; grid-template-columns: minmax(0, 1fr) 630px; column-gap: 36px; align-items: center"><div style="min-width: 0"><p style="margin: 0; font-size: 58.67px; line-height: 1.15; font-weight: 700">상황인지 <span style="margin-left: 8px; font-size: 29.33px; font-weight: 500; color: #6B655A">Monitoring · Diagnosis</span></p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 700">HMM 전진 필터로 자동 추론</p><p class="tx" style="margin: 12px 0 0">Telemetry MCP로 슬라이스별 수요 <i>x</i>를 모으고 상황 <i>s</i>(평시·응급·대형 행사·IoT 급증)를 추론</p><p class="sm" style="margin: 10px 0 0; font-weight: 700">식 1, 같은 상황 유지 확률 0.98</p></div><div><p class="cap" style="margin: 0; font-weight: 700; color: #161616">식 1 — 상황 사후확률 (HMM 전진 필터)</p><div class="math" style="margin-top: 8px; font-size: 44px; line-height: 1.25"><i>b</i><sub style="font-size: 0.6em"><i>t</i></sub>(<i>s</i>) ∝ <i>p</i>(<i>x</i><sub style="font-size: 0.6em"><i>t</i></sub> | <i>s</i>) <span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1"><span style="font-size: 1.3em">∑</span><span style="font-size: 0.5em"><i>s</i>′</span></span> <i>A</i><sub style="font-size: 0.6em"><i>s</i>′<i>s</i></sub> <i>b</i><sub style="font-size: 0.6em"><i>t</i>−1</sub>(<i>s</i>′)</div></div></div></div><sc-if value="{{extra}}" hint-placeholder-val="{{ true }}"><div style="padding: 36px 30px; display: flex; flex-direction: column; justify-content: center"><p class="num" style="margin: 0; font-size: 150px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">47 / 47</p><p class="tx" style="margin: 12px 0 0; font-weight: 500">자율 판단한 스텝의 상황인지 정확</p></div></sc-if><sc-if value="{{noExtra}}" hint-placeholder-val="{{ false }}"><div></div></sc-if></div>
+<div style="background: #FFEB8A; display: grid; grid-template-columns: 480px 1690px 655px; column-gap: 64px"><div style="grid-column: 1; grid-row: 1"><div style="padding: 36px 0 36px 30px"><p class="sm" style="margin: 0; font-weight: 700; color: #6B655A">자원배분</p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 500; color: #6B655A">상황별 고정 배분표</p></div></div><div style="grid-column: 2; grid-row: 1; min-width: 0"><div style="padding: 36px 30px 36px 120px; min-width: 0"><div style="display: grid; grid-template-columns: minmax(0, 1fr) 630px; column-gap: 36px; align-items: center"><div style="min-width: 0"><p style="margin: 0; font-size: 58.67px; line-height: 1.15; font-weight: 700">자원배분 결정 <span style="margin-left: 8px; font-size: 29.33px; font-weight: 500; color: #6B655A">Planning</span></p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 700">수요·잡음·임계값으로 산출</p><p class="tx" style="margin: 12px 0 0">이용률 임계값 <i>θ</i>와 용량 <i>C</i>로 목표 배분을 산출해 Orchestrator MCP로 적용하고 수요 압력 <i>P</i>를 계산</p><p class="sm" style="margin: 10px 0 0; font-weight: 700">식 2, <i>P</i>가 1을 넘으면 배분만으로는 SLA 불가</p></div><div><p class="cap" style="margin: 0; font-weight: 700; color: #161616">식 2 — 수요 압력</p><div class="math" style="margin-top: 8px; font-size: 60px; line-height: 1.25"><i>P</i><sub style="font-size: 0.6em"><i>t</i></sub> = <span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1"><span style="font-size: 1.3em">∑</span><span style="font-size: 0.5em"><i>i</i></span></span> <span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.15; font-size: 0.85em"><span style="padding: 0 8px 4px"><i>x</i><sub style="font-size: 0.6em"><i>i</i>,<i>t</i></sub></span><span style="border-top: 3px solid #161616; padding: 4px 8px 0"><i>θ</i><sub style="font-size: 0.6em"><i>i</i></sub> <i>C</i><sub style="font-size: 0.6em"><i>i</i>,<i>t</i></sub></span></span></div></div></div></div></div><div style="grid-column: 3; grid-row: 1 / 3; display: flex"><sc-if value="{{extra}}" hint-placeholder-val="{{ true }}"><div style="padding: 36px 30px; display: flex; flex-direction: column; justify-content: center"><p class="num" style="margin: 0; font-size: 150px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">22 / 22</p><p class="tx" style="margin: 12px 0 0; font-weight: 500">용량이 모자란 스텝을 모두 자동 조달</p></div></sc-if><sc-if value="{{noExtra}}" hint-placeholder-val="{{ false }}"><div></div></sc-if></div><div style="grid-column: 1; grid-row: 2; border-top: 2px solid #E4CF6A"><div style="padding: 36px 0 36px 30px"><p class="sm" style="margin: 0; font-weight: 700; color: #6B655A">용량 확보</p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 500; color: #6B655A">마켓플레이스 분리, 사람이 조달</p></div></div><div style="grid-column: 2; grid-row: 2; min-width: 0; border-top: 2px solid #E4CF6A"><div style="padding: 36px 30px 36px 120px; min-width: 0"><div style="display: grid; grid-template-columns: minmax(0, 1fr) 630px; column-gap: 36px; align-items: center"><div style="min-width: 0"><p style="margin: 0; font-size: 58.67px; line-height: 1.15; font-weight: 700">자원할당 <span style="margin-left: 8px; font-size: 29.33px; font-weight: 500; color: #6B655A">Execution</span></p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 700">수요 압력 기준 자동 조달</p><p class="tx" style="margin: 12px 0 0"><i>P</i>가 임계값 이상이면 압력을 가장 크게 낮추는 슬라이스의 용량을 마켓플레이스에서 조달</p><p class="sm" style="margin: 10px 0 0; font-weight: 700">응급 0.8 · 그 밖 1.0, 벤더는 PoC 점수식으로 선택</p></div><div><sc-if value="{{extra}}" hint-placeholder-val="{{ true }}"><p class="cap" style="margin: 0; font-weight: 700; color: #161616">PoC 벤더 점수식과 조달 용량</p><div class="math" style="margin-top: 8px; font-size: 30px; line-height: 1.35"><i>S<sub style="font-size: 0.6em">v</sub></i> = 100[<i>w</i><sub style="font-size: 0.6em">Q</sub> (∑<sub style="font-size: 0.6em"><i>j</i></sub> <i>ω<sub style="font-size: 0.6em">j</sub> q<sub style="font-size: 0.6em">v,j</sub></i> / ∑<sub style="font-size: 0.6em"><i>j</i></sub> <i>ω<sub style="font-size: 0.6em">j</sub></i>) + <i>w</i><sub style="font-size: 0.6em">P</sub> <i>p<sub style="font-size: 0.6em">v</sub></i> + <i>w</i><sub style="font-size: 0.6em">R</sub> <i>r<sub style="font-size: 0.6em">v</sub></i>/5]</div><div style="margin-top: 6px; display: flex; align-items: baseline; gap: 30px"><span class="math" style="font-size: 34px">Δ<i>C<sub style="font-size: 0.6em">k</sub></i> = 0.25 · <i>B</i><sub style="font-size: 0.6em"><i>v</i>*</sub> / <i>B</i><sub style="font-size: 0.6em">ref</sub></span><span class="sm" style="color: #6B655A">URLLC <i>B</i><sub>ref</sub> = 500 Mbps</span></div></sc-if></div></div></div></div></div>
+<div style="display: grid; grid-template-columns: 480px 1690px 655px; column-gap: 64px"><div style="padding: 36px 0 36px 30px"><p class="sm" style="margin: 0; font-weight: 700; color: #6B655A">사람 개입</p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 500; color: #6B655A">상시 감시</p></div><div style="padding: 36px 30px 36px 120px; min-width: 0"><p style="margin: 0; font-size: 58.67px; line-height: 1.15; font-weight: 700">판단검증 <span style="margin-left: 8px; font-size: 29.33px; font-weight: 500; color: #6B655A">Verification</span></p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 700">신뢰도 0.9 미만일 때만 질의</p><p class="tx" style="margin: 12px 0 0">상황 신뢰도가 0.9 미만일 때만 망관리자에게 질의하고 결과를 Diagnosis로 되돌리며, SLA 충족 여부를 벤더 평판에 반영</p><p class="sm" style="margin: 10px 0 0; font-weight: 700">신뢰도 = 사후확률 최댓값</p></div><sc-if value="{{extra}}" hint-placeholder-val="{{ true }}"><div style="padding: 36px 30px; display: flex; flex-direction: column; justify-content: center"><p class="num" style="margin: 0; font-size: 150px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">3 / 50</p><p class="tx" style="margin: 12px 0 0; font-weight: 500">망관리자 질의가 필요했던 스텝</p></div></sc-if><sc-if value="{{noExtra}}" hint-placeholder-val="{{ false }}"><div></div></sc-if></div>
+<div style="position: absolute; left: 578px; top: 70px; bottom: 120px; width: 62px; box-sizing: border-box; border: 6px solid #161616; border-right: none; border-radius: 30px 0 0 30px"></div>
+<svg width="26" height="28" viewBox="0 0 26 28" aria-hidden="true" style="position: absolute; left: 636px; top: 59px"><path d="M0 0 L26 14 L0 28 Z" fill="#161616"></path></svg>
+<div style="position: absolute; left: 576px; top: calc(50% - 25px); transform: translate(-50%, -50%) rotate(-90deg); background: #FFEB8A; padding: 0 16px; font-size: 29.33px; line-height: 1.2; font-weight: 700; white-space: nowrap">매 스텝(15분) 반복</div>
+</div>
+<div style="border-top: 2px solid #D5CFC3; display: grid; grid-template-columns: 480px 1690px 655px; column-gap: 64px"><div style="padding: 36px 0 36px 30px"><p class="sm" style="margin: 0; font-weight: 700; color: #6B655A">결정 기록</p><p style="margin: 8px 0 0; font-size: 40px; line-height: 1.25; font-weight: 500; color: #6B655A">상태 이력만 저장</p></div><div style="padding: 36px 30px 36px 120px"><p style="margin: 0; font-size: 40px; line-height: 1.25; font-weight: 700">결정 근거와 호출 순서까지 기록</p><p class="tx" style="margin: 12px 0 0">하위 에이전트끼리는 직접 호출하지 않고 Supervisor Agent를 거치므로 판단 근거가 모두 기록에 남는다.</p></div><div></div></div>
+<div style="background: #161616; color: #FFFFFF; display: grid; grid-template-columns: minmax(0, 1fr) 655px; column-gap: 64px; align-items: center"><div style="padding: 30px 30px"><p style="margin: 0; font-size: 58.67px; line-height: 1.2; font-weight: 700">SLA 위반 감소 (평균 7.8 → 3.8회)</p><p class="tx" style="margin: 10px 0 0; color: #D9D4CA">모든 시드에서 위반이 줄었고, 평균 7.8회에서 3.8회로 51% 감소했다.</p></div><p class="num" style="margin: 0; padding: 10px 30px; font-size: 230px; line-height: 1; font-weight: 700; letter-spacing: -0.05em; color: #FFEB8A">51%</p></div>
+</section>
+
+<p class="sm" style="margin: -34px 0 0; flex: none; color: #6B655A"><i>b</i> = 상황 <i>s</i>의 사후확률, <i>A</i> = 상황 전이확률, <i>x</i> = 슬라이스별 수요, <i>θ<sub>i</sub></i> = 슬라이스 <i>i</i>의 이용률 임계값(eMBB 0.9 · URLLC 1.2 · mMTC 0.8), <i>C<sub>i,t</sub></i> = 슬라이스 <i>i</i>의 용량(기본 1.6, 조달로 최대 2.6).</p>
+
+<div style="flex: 1; min-height: 0; display: grid; grid-template-columns: 1000px 1100px minmax(0, 1fr); column-gap: 70px">
+
+<div data-area="제안 구조 · 참고문헌" data-mm="0" style="min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 50px">
+<section>
+<h2>제안 구조 (그림 1)</h2>
+<div role="img" aria-label="그림 1: Intent/Service, Agent, MCP, Network Infra의 4계층 구조" style="position: relative; width: 1000px; height: 707px; font-size: 29.33px; line-height: 1.2">
+<div style="position: absolute; left: 0px; top: 0px; width: 1000px; height: 66px; box-sizing: border-box; border: 3px solid #161616; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">Intent / Service Layer</div>
+<div style="position: absolute; left: 0px; top: 116px; width: 1000px; height: 246px; box-sizing: border-box; border: 3px solid #161616; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700"></div>
+<div style="position: absolute; left: 0px; top: 442px; width: 1000px; height: 130px; box-sizing: border-box; border: 3px solid #161616; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700"></div>
+<div style="position: absolute; left: 0px; top: 641px; width: 1000px; height: 66px; box-sizing: border-box; border: 3px solid #161616; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">Network Infra Layer</div>
+<svg width="50" height="8" viewBox="0 0 50 8" preserveAspectRatio="none" style="position: absolute; left: 652px; top: 162px; width: 50px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 50 4"></path></svg>
+<svg width="8" height="26" viewBox="0 0 8 26" preserveAspectRatio="none" style="position: absolute; left: 496px; top: 194px; width: 8px; height: 26px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 26"></path></svg>
+<svg width="777" height="8" viewBox="0 0 777 8" preserveAspectRatio="none" style="position: absolute; left: 103px; top: 216px; width: 777px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 777 4"></path></svg>
+<svg width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 99px; top: 220px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 17" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+<svg width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 297px; top: 220px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 17" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+<svg width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 479px; top: 220px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 17" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+<svg width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 661px; top: 220px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 17" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+<svg width="8" height="23" viewBox="0 0 8 23" preserveAspectRatio="none" style="position: absolute; left: 876px; top: 220px; width: 8px; height: 23px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-8" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 17" marker-end="url(#dc-arrow-head-filled-8)"></path></svg>
+<svg width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 192px; top: 268px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-9" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 21 4" marker-end="url(#dc-arrow-head-filled-9)"></path></svg>
+<svg width="28" height="8" viewBox="0 0 28 8" preserveAspectRatio="none" style="position: absolute; left: 382px; top: 268px; width: 28px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-10" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 22 4" marker-end="url(#dc-arrow-head-filled-10)"></path></svg>
+<svg width="27" height="8" viewBox="0 0 27 8" preserveAspectRatio="none" style="position: absolute; left: 556px; top: 268px; width: 27px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-11" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 21 4" marker-end="url(#dc-arrow-head-filled-11)"></path></svg>
+<svg width="28" height="8" viewBox="0 0 28 8" preserveAspectRatio="none" style="position: absolute; left: 746px; top: 268px; width: 28px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-12" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 0 4 L 22 4" marker-end="url(#dc-arrow-head-filled-12)"></path></svg>
+<svg width="8" height="22" viewBox="0 0 8 22" preserveAspectRatio="none" style="position: absolute; left: 876px; top: 300px; width: 8px; height: 22px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 22"></path></svg>
+<svg width="579" height="8" viewBox="0 0 579 8" preserveAspectRatio="none" style="position: absolute; left: 301px; top: 318px; width: 579px; height: 8px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 579 4"></path></svg>
+<svg width="8" height="21" viewBox="0 0 8 21" preserveAspectRatio="none" style="position: absolute; left: 297px; top: 301px; width: 8px; height: 21px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-15" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 21 L 4 6" marker-end="url(#dc-arrow-head-filled-15)"></path></svg>
+<svg width="8" height="79" viewBox="0 0 8 79" preserveAspectRatio="none" style="position: absolute; left: 414px; top: 362px; width: 8px; height: 79px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-16" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 73" marker-end="url(#dc-arrow-head-filled-16)"></path></svg>
+<svg width="8" height="79" viewBox="0 0 8 79" preserveAspectRatio="none" style="position: absolute; left: 446px; top: 363px; width: 8px; height: 79px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-17" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 79 L 4 6" marker-end="url(#dc-arrow-head-filled-17)"></path></svg>
+<svg width="8" height="68" viewBox="0 0 8 68" preserveAspectRatio="none" style="position: absolute; left: 414px; top: 572px; width: 8px; height: 68px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-18" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 0 L 4 62" marker-end="url(#dc-arrow-head-filled-18)"></path></svg>
+<svg width="8" height="68" viewBox="0 0 8 68" preserveAspectRatio="none" style="position: absolute; left: 446px; top: 573px; width: 8px; height: 68px; overflow: visible; fill: none; stroke: #161616; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-19" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#161616" stroke="none" style="stroke: none; fill: #161616; fill: context-stroke"></path></marker></defs><path d="M 4 68 L 4 6" marker-end="url(#dc-arrow-head-filled-19)"></path></svg>
+<div style="position: absolute; left: 348px; top: 138px; width: 304px; height: 56px; background: #161616; color: #FFFFFF; display: flex; align-items: center; justify-content: center; white-space: nowrap; font-weight: 700">Supervisor Agent</div>
+<div style="position: absolute; left: 702px; top: 138px; width: 100px; height: 56px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">RAG</div>
+<div style="position: absolute; left: 14px; top: 244px; width: 178px; height: 56px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Monitoring</div>
+<div style="position: absolute; left: 220px; top: 244px; width: 162px; height: 56px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Diagnosis</div>
+<div style="position: absolute; left: 411px; top: 244px; width: 145px; height: 56px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Planning</div>
+<div style="position: absolute; left: 584px; top: 244px; width: 162px; height: 56px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Execution</div>
+<div style="position: absolute; left: 775px; top: 244px; width: 211px; height: 56px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Verification</div>
+<div style="position: absolute; left: 14px; top: 500px; width: 170px; height: 54px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Telemetry</div>
+<div style="position: absolute; left: 249px; top: 500px; width: 153px; height: 54px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Topology</div>
+<div style="position: absolute; left: 466px; top: 500px; width: 219px; height: 54px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Orchestrator</div>
+<div style="position: absolute; left: 750px; top: 500px; width: 236px; height: 54px; background: #ECE8E0; color: #161616; display: flex; align-items: center; justify-content: center; white-space: nowrap">Configuration</div>
+<div style="position: absolute; left: 18px; top: 128px; font-weight: 700">Agent Layer</div>
+<div style="position: absolute; left: 18px; top: 452px; font-weight: 700">MCP Layer</div>
+</div>
+<p class="tx" style="margin: 24px 0 0; font-weight: 700">배분 결정은 Agent Layer가 내리고, Orchestrator MCP는 결정된 배분을 적용한다.</p>
+<div style="margin-top: 16px; display: flex; flex-direction: column; gap: 10px">
+<p class="sm" style="margin: 0"><b>Intent / Service Layer</b> — 망관리자 의도와 SLA를 정책으로 변환해 에이전트 계층에 목표로 전달</p>
+<p class="sm" style="margin: 0"><b>Agent Layer</b> — 마스터 에이전트(Supervisor Agent)가 하위 전문 에이전트를 조율하고, 공유 지식베이스(과거 장애·조치 이력, RAG)를 참조</p>
+<p class="sm" style="margin: 0"><b>MCP Layer</b> — 텔레메트리·토폴로지·설정·오케스트레이터 기능을 독립 MCP 서버로 분리</p>
+<p class="sm" style="margin: 0"><b>Network Infra Layer</b> — 테스트베드의 RAN·코어·전송 네트워크</p>
+</div>
+</section>
+<section>
+<h2 style="font-size: 42.67px">참고문헌</h2>
+<div style="display: grid; grid-template-columns: 40px minmax(0, 1fr); row-gap: 8px; font-size: 24px; line-height: 1.3">
+<span>[1]</span><span>ITU-T Rec. Y.3061 (12/2023), Autonomous networks – Architecture framework.</span>
+<span>[2]</span><span>ITU-T FG-AINN, Technical Report: Proof-of-Concept activities, 2026.</span>
+<span>[3]</span><span>ITU-T FG-AINN, LS on FG-AINN 2026 work plan (FG-AINN-O-016), Dec. 2025.</span>
+<span>[4]</span><span>Anthropic, Model Context Protocol Specification, modelcontextprotocol.io, 2024.</span>
+</div>
+</section>
+</div>
+
+<section data-area="실험 설정 · 그림 2" data-mm="0" style="min-width: 0">
+<h2>실험 설정</h2>
+<table class="pt">
+<tbody>
+<tr><td style="width: 150px; font-weight: 700">시나리오</td><td>응급 상황이 처음부터 이어지는 10스텝 (1스텝 = 15분)</td></tr>
+<tr><td style="font-weight: 700">반복</td><td>시드 0~4로 5회, 같은 시드에는 두 방식에 같은 트래픽</td></tr>
+<tr><td style="font-weight: 700">비교군</td><td class="mu">기존 PoC 재현 — 망관리자가 정답 상황을 즉시 지정, 고정 배분표, 조달 없음</td></tr>
+<tr><td style="font-weight: 700">제안</td><td style="font-weight: 700">에이전트 기반 오케스트레이터<sc-if value="{{extra}}" hint-placeholder-val="{{ true }}"> — LLM(Claude), 5개 MCP 서버 · 21개 도구</sc-if></td></tr>
+<tr><td style="font-weight: 700">공통 설정</td><td>PoC의 슬라이스 구성(eMBB·URLLC·mMTC), SLA 임계값, 트래픽 생성식, 배분 평활</td></tr>
+<tr><td style="font-weight: 700">용량</td><td>슬라이스당 기본 1.6, 조달 시 최대 2.6</td></tr>
+</tbody>
+</table>
+<div class="sm" style="margin-top: 40px; display: flex; flex-wrap: wrap; column-gap: 30px; row-gap: 6px"><span><span style="display: inline-block; width: 40px; height: 26px; background: #948E80; vertical-align: -3px; margin-right: 10px"></span>기존 PoC (위반 8회)</span><span><span style="display: inline-block; width: 40px; height: 26px; background: #161616; vertical-align: -3px; margin-right: 10px"></span>제안 구조 (위반 4회)</span><span><span style="display: inline-block; width: 40px; height: 26px; background: var(--sig); vertical-align: -3px; margin-right: 10px"></span>SLA 위반 경계 (부하율 1.0)</span><span>▲ 용량 조달 (v: 벤더)</span></div>
+<p class="sm" style="margin: 14px 0 6px; color: #6B655A">최대 슬라이스 부하율 (이용률 ÷ 임계값)</p>
+<svg width="1100" height="790" viewBox="0 0 1100 790" role="img" aria-label="그림 2: 시드 3의 스텝별 최대 슬라이스 부하율. 기존 PoC는 위반 8회, 제안 구조는 위반 4회" style="display: block; font-family: Pretendard, 'Noto Sans KR', sans-serif">
+<line x1="110" y1="133.3" x2="1072" y2="133.3" stroke="#DDD7CB" stroke-width="2"></line>
+<line x1="110" y1="322.2" x2="1072" y2="322.2" stroke="#DDD7CB" stroke-width="2"></line>
+<line x1="110" y1="700" x2="1072" y2="700" stroke="#948E80" stroke-width="2"></line>
+<text x="90" y="144.3" font-size="32" fill="#6B655A" text-anchor="end">2.0</text>
+<text x="90" y="333.2" font-size="32" fill="#6B655A" text-anchor="end">1.5</text>
+<text x="90" y="522.1" font-size="32" fill="#6B655A" text-anchor="end">1.0</text>
+<text x="90" y="711.0" font-size="32" fill="#6B655A" text-anchor="end">0.5</text>
+<text x="110.0" y="742" font-size="32" fill="#6B655A" text-anchor="middle">0</text>
+<text x="216.9" y="742" font-size="32" fill="#6B655A" text-anchor="middle">1</text>
+<text x="323.8" y="742" font-size="32" fill="#6B655A" text-anchor="middle">2</text>
+<text x="430.7" y="742" font-size="32" fill="#6B655A" text-anchor="middle">3</text>
+<text x="537.6" y="742" font-size="32" fill="#6B655A" text-anchor="middle">4</text>
+<text x="644.4" y="742" font-size="32" fill="#6B655A" text-anchor="middle">5</text>
+<text x="751.3" y="742" font-size="32" fill="#6B655A" text-anchor="middle">6</text>
+<text x="858.2" y="742" font-size="32" fill="#6B655A" text-anchor="middle">7</text>
+<text x="965.1" y="742" font-size="32" fill="#6B655A" text-anchor="middle">8</text>
+<text x="1072.0" y="742" font-size="32" fill="#6B655A" text-anchor="middle">9</text>
+<text x="591" y="784" font-size="32" fill="#6B655A" text-anchor="middle">스텝 (15분 간격)</text>
+<line x1="110" y1="511.1" x2="1072" y2="511.1" stroke="{{accent}}" stroke-width="4"></line>
+<polyline points="110.0,550.0 216.9,511.1 323.8,461.2 430.7,321.1 537.6,441.6 644.4,54.8 751.3,413.3 858.2,471.1 965.1,307.5 1072.0,279.2" fill="none" stroke="#948E80" stroke-width="4" stroke-dasharray="14 10" stroke-linejoin="round"></polyline>
+<rect x="100.0" y="540.0" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="206.9" y="501.1" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="313.8" y="451.2" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="420.7" y="311.1" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="527.6" y="431.6" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="634.4" y="44.8" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="741.3" y="403.3" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="848.2" y="461.1" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="955.1" y="297.5" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<rect x="1062.0" y="269.2" width="20" height="20" fill="#FFFFFF" stroke="#948E80" stroke-width="4"></rect>
+<polyline points="110.0,609.0 216.9,589.3 323.8,531.5 430.7,488.4 537.6,505.8 644.4,496.4 751.3,500.5 858.2,537.9 965.1,535.3 1072.0,562.5" fill="none" stroke="#161616" stroke-width="5" stroke-linejoin="round"></polyline>
+<circle cx="110.0" cy="609.0" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="216.9" cy="589.3" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="323.8" cy="531.5" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="430.7" cy="488.4" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="537.6" cy="505.8" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="644.4" cy="496.4" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="751.3" cy="500.5" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="858.2" cy="537.9" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="965.1" cy="535.3" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<circle cx="1072.0" cy="562.5" r="11" fill="#161616" stroke="#FFFFFF" stroke-width="3"></circle>
+<path d="M430.7 511.4 L443.7 533.4 L417.7 533.4 Z" fill="#161616"></path>
+<text x="448.7" y="535.4" font-size="32" font-weight="700" fill="#161616" text-anchor="start">v1</text>
+<path d="M537.6 528.8 L550.6 550.8 L524.6 550.8 Z" fill="#161616"></path>
+<text x="555.6" y="552.8" font-size="32" font-weight="700" fill="#161616" text-anchor="start">v1</text>
+<path d="M644.4 519.4 L657.4 541.4 L631.4 541.4 Z" fill="#161616"></path>
+<text x="662.4" y="543.4" font-size="32" font-weight="700" fill="#161616" text-anchor="start">v1</text>
+<path d="M965.1 558.3 L978.1 580.3 L952.1 580.3 Z" fill="#161616"></path>
+<text x="943.1" y="582.3" font-size="32" font-weight="700" fill="#161616" text-anchor="end">v3</text>
+<path d="M1072.0 585.5 L1085.0 607.5 L1059.0 607.5 Z" fill="#FFFFFF" stroke="#161616" stroke-width="3"></path>
+<text x="1050.0" y="609.5" font-size="32" font-weight="700" fill="#161616" text-anchor="end">v5</text>
+</svg>
+<p class="cap" style="margin: 10px 0 0">그림 2. 응급 상황에서 기존 PoC 대비 스텝별 최대 슬라이스 부하율 (시드 3, 5회 중 평균에 가장 가까운 시드)</p>
+</section>
+
+<div data-area="결과 · 결론 · 참고문헌" data-mm="0" style="min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 50px">
+<sc-if value="{{extra}}" hint-placeholder-val="{{ true }}">
+<section>
+<h2>시드별 결과</h2>
+<table class="pt pn" style="background: #FFFFFF">
+<thead>
+<tr><th>시드</th><th class="mu">기존 PoC<br>위반(회)</th><th>제안<br>위반(회)</th><th>조달<br>(회)</th><th>조달 비용<br>(USD)</th><th>망관리자<br>질의(회)</th></tr>
+</thead>
+<tbody>
+<tr><td>0</td><td class="mu">9</td><td style="font-weight: 700">3</td><td>5</td><td>4,550</td><td>0</td></tr>
+<tr><td>1</td><td class="mu">7</td><td style="font-weight: 700">3</td><td>2</td><td>2,500</td><td>0</td></tr>
+<tr><td>2</td><td class="mu">9</td><td style="font-weight: 700">5</td><td>6</td><td>5,225</td><td>0</td></tr>
+<tr><td>3</td><td class="mu">8</td><td style="font-weight: 700">4</td><td>5</td><td>4,975</td><td>2</td></tr>
+<tr><td>4</td><td class="mu">6</td><td style="font-weight: 700">4</td><td>4</td><td>3,750</td><td>1</td></tr>
+<tr><td style="font-weight: 700; border-top: 4px solid #161616">평균</td><td class="mu" style="font-weight: 700; border-top: 4px solid #161616">7.8</td><td style="font-weight: 700; border-top: 4px solid #161616">3.8</td><td style="font-weight: 700; border-top: 4px solid #161616">4.4</td><td style="font-weight: 700; border-top: 4px solid #161616">4,200</td><td style="font-weight: 700; border-top: 4px solid #161616">0.6</td></tr>
+</tbody>
+</table>
+<ul class="pb" style="margin-top: 24px">
+<li>기존 PoC는 수요 압력 0.8 이상인 34스텝에서 용량을 늘릴 수단이 없었고, 제안 구조는 22스텝 모두에서 벤더를 조달했다.</li>
+<li>망관리자 질의는 50스텝 중 3스텝뿐이었다.</li>
+</ul>
+</section>
+</sc-if>
+<section>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 30px">
+<h2>결론과 기여</h2>
+<div style="width: 95px; height: 95px; flex: none; background: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.15; color: #555555">QR<br>미정</div>
+</div>
+<ul class="pb">
+<li><b>폐루프 자동화</b> — FG-AINN PoC에 에이전트 계층을 더해 상황인지부터 용량 조달까지 사람 없이 돌게 했다.</li>
+<li><b>수요 압력 지표</b> — “배분 조정으로 충분한가, 용량 확보가 필요한가”를 식 2 하나로 판정한다.</li>
+<li><b>선택적 개입</b> — 상시 감시 대신, 상황 신뢰도가 낮을 때만 망관리자에게 묻는다.</li>
+<li><b>한계와 향후</b> — 검증이 응급 시나리오에 한정되어, 혼합 상황 실험과 FG-AINN 표준 기고 연계로 넓힌다.</li>
+</ul>
+</section>
+
+</div>
+
+</div>
+</div>
+
+<p data-area="사사" data-mm="16" style="height: 33px; flex: none; margin: 44px 113px 0; font-size: 24px; line-height: 1.3; color: #4A463E; white-space: nowrap">본 연구는 IITP(정보통신기획평가원)의 ‘Agentic AI 기반 종단간 완전자율형 네트워크 기술을 위한 Cross-SDO 표준 개발(RS-2026-25527078)’ 지원을 받음.</p>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#E0451F"},"showExtra":{"editor":"boolean","default":true},"$preview":{"width":3179,"height":4494}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const extra = this.props.showExtra ?? true;
+    return {
+      accent: this.props.accent ?? '#E0451F',
+      extra: extra,
+      noExtra: !extra
+    };
+  }
+}
+</script>
+</body>
+</html>

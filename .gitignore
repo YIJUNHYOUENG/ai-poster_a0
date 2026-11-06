@@ -1,0 +1,12 @@
+# 만들 때마다 다시 생기는 것
+작업파일/출력/
+__pycache__/
+*.pyc
+
+# Office·Windows 임시 파일
+~$*
+desktop.ini
+Thumbs.db
+작업파일/edge-profile/
+작업파일/render/
+작업파일/ppt/

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>A0 포스터 D안 — 운영 로그형</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=STIX+Two+Text:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';font-style:normal;font-weight:400;font-display:block;src:url(/_blob/7aecd9586478b9bff32aa626ffe9498e) format('woff2')}
+@font-face{font-family:'Pretendard';font-style:normal;font-weight:500;font-display:block;src:url(/_blob/9c75082732dd3cea95235c1f82198c55) format('woff2')}
+@font-face{font-family:'Pretendard';font-style:normal;font-weight:700;font-display:block;src:url(/_blob/484160b31ce5e7696c870fa303f1d8e0) format('woff2')}
+body{margin:0}
+.dl h2{margin:0 0 22px;font-size:58.67px;line-height:1.15;font-weight:700;letter-spacing:-0.02em;color:#161616}
+.dl .tx{font-size:32px;line-height:1.32;text-wrap:pretty}
+.dl .sm{font-size:29.33px;line-height:1.3;text-wrap:pretty}
+.dl .cap{font-size:24px;line-height:1.3;color:#4A463E}
+.dl .mu{color:#5E594F}
+.dl ul.pb{margin:0;padding-left:36px;font-size:32px;line-height:1.32;text-wrap:pretty}
+.dl ul.pb li{margin:0 0 12px;padding-left:4px}
+.dl ul.pb li:last-child{margin-bottom:0}
+.dl table.pt{border-collapse:collapse;width:100%;font-size:29.33px;line-height:1.3;font-variant-numeric:tabular-nums}
+.dl table.pt th,.dl table.pt td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:2px solid #D5CFC3}
+.dl table.pt th{font-weight:700}
+.dl table.pt tr:last-child td{border-bottom:none}
+.dl table.pn td,.dl table.pn th{text-align:right;padding:8px 6px}
+.dl table.pn td:first-child,.dl table.pn th:first-child{text-align:left}
+.dl .math{font-family:'STIX Two Text','Cambria Math','Latin Modern Math',serif;letter-spacing:0;white-space:nowrap}
+.dl .num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div class="dl" style="--sig: {{accent}}; width: 3179px; height: 4494px; background: #ECE8E0; display: flex; flex-direction: column; font-family: 'Pretendard', 'Noto Sans KR', sans-serif; color: #161616; letter-spacing: -0.01em; word-break: keep-all">
+
+<header data-area="헤더" data-mm="161" style="height: 610px; flex: none; box-sizing: border-box; padding: 100px 113px 0; background: #161616; color: #FFFFFF; display: grid; grid-template-columns: minmax(0, 1fr) 265px; column-gap: 80px; align-items: start">
+<div style="min-width: 0">
+<h1 style="margin: 0; font-size: 112px; line-height: 1.15; font-weight: 700; letter-spacing: -0.03em">에이젠틱 AI를 이용한 자율망에서<br>동적 자원할당 자동화를 위한 구조 및 설계</h1>
+<p style="margin: 14px 0 0; font-size: 45.33px; line-height: 1.25; color: #D9D4CA; white-space: nowrap; letter-spacing: -0.015em">Architecture and Design for Automated Dynamic Resource Allocation in Autonomous Network using Agentic AI</p>
+<p style="margin: 18px 0 0; font-size: 40px; line-height: 1.3; white-space: nowrap">이준형, 김재경, 최윤경, 김양중* · 한국공학대학교 컴퓨터전자공학과 (* 교신저자)</p>
+<p style="margin: 2px 0 0; font-size: 40px; line-height: 1.3; color: #BDB7AB; white-space: nowrap">{ljh040325, 2023531014, dhksejs235, *zeroplus}@tukorea.ac.kr</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 30px">
+<div style="width: 265px; height: 200px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.3; color: #555555">한국공학대학교<br>로고</div>
+<div style="width: 265px; height: 200px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.3; color: #555555">IITP<br>로고</div>
+</div>
+</header>
+
+<div style="height: @@BODY_H@@px; flex: none; margin: 70px 113px 0; display: grid; grid-template-columns: @@COL_L@@px @@COL_C@@px @@COL_R@@px; column-gap: 70px">
+
+<div data-area="왼쪽 열 (① ② ③)" data-mm="0" style="min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 76px">
+<section>
+<h2>① 연구 배경과 문제</h2>
+<ul class="pb">
+<li>AI 기반 망관리가 확산되지만, 에이전트에 자원관리를 전적으로 맡기기엔 신뢰와 위험부담 문제가 남아 있다.</li>
+<li>ITU-T FG-AINN(2024년 7월 SG13 설립)은 PoC로 5G 네트워크 슬라이싱의 AI 기반 관리를 시연했다.</li>
+<li>PoC 구조의 두 한계: 망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.</li>
+</ul>
+<table class="pt" style="margin-top: 26px; table-layout: fixed">
+<thead>
+<tr><th style="width: 150px">구분</th><th style="width: 360px; background: #948E80; color: #FFFFFF">기존 PoC 구조</th><th style="background: #161616; color: #FFFFFF">제안 구조</th></tr>
+</thead>
+<tbody>
+<tr><td style="font-weight: 700">상황인지</td><td class="mu">망관리자가 직접 지정</td><td style="font-weight: 700">HMM 전진 필터로 자동 추론</td></tr>
+<tr><td style="font-weight: 700">자원배분</td><td class="mu">상황별 고정 배분표</td><td style="font-weight: 700">수요·잡음·임계값으로 산출</td></tr>
+<tr><td style="font-weight: 700">용량 확보</td><td class="mu">마켓플레이스 분리, 사람이 조달</td><td style="font-weight: 700">수요 압력 기준 자동 조달</td></tr>
+<tr><td style="font-weight: 700">사람 개입</td><td class="mu">상시 감시</td><td style="font-weight: 700">신뢰도 0.9 미만일 때만 질의</td></tr>
+<tr><td style="font-weight: 700">결정 기록</td><td class="mu">상태 이력만 저장</td><td style="font-weight: 700">결정 근거와 호출 순서까지 기록</td></tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>② 제안 구조 (그림 1)</h2>
+@@DIAGRAM@@
+<div style="margin-top: 26px; display: flex; flex-direction: column; gap: 12px">
+<p class="tx" style="margin: 0"><b>Intent / Service Layer</b> — 망관리자 의도와 SLA를 정책으로 변환해 에이전트 계층에 목표로 전달</p>
+<p class="tx" style="margin: 0"><b>Agent Layer</b> — 마스터 에이전트(Supervisor Agent)가 하위 전문 에이전트를 조율하고, 공유 지식베이스(과거 장애·조치 이력, RAG)를 참조</p>
+<p class="tx" style="margin: 0"><b>MCP Layer</b> — 텔레메트리·토폴로지·설정·오케스트레이터 기능을 독립 MCP 서버로 분리</p>
+<p class="tx" style="margin: 0"><b>Network Infra Layer</b> — 테스트베드의 RAN·코어·전송 네트워크</p>
+<p class="tx" style="margin: 8px 0 0; font-weight: 700">배분 결정은 Agent Layer가 내리고, Orchestrator MCP는 결정된 배분을 적용한다.</p>
+</div>
+</section>
+
+<section>
+<h2>③ 에이전트 4단계 폐루프</h2>
+@@STAGES@@
+<p class="tx" style="margin: 26px 0 0; font-weight: 700">하위 에이전트끼리는 직접 호출하지 않고 Supervisor Agent를 거치므로 판단 근거가 모두 기록에 남는다.</p>
+</section>
+</div>
+
+<div data-area="가운데 열 (④ · 그림 2 · 식)" data-mm="0" style="min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 56px">
+<div style="background: #FFFFFF; padding: 50px 40px 40px">
+<h2>④ 실험 설정</h2>
+<table class="pt">
+<tbody>
+<tr><td style="width: 150px; font-weight: 700">시나리오</td><td>응급 상황이 처음부터 이어지는 10스텝 (1스텝 = 15분)</td></tr>
+<tr><td style="font-weight: 700">반복</td><td>시드 0~4로 5회, 같은 시드에는 두 방식에 같은 트래픽</td></tr>
+<tr><td style="font-weight: 700">비교군</td><td class="mu">기존 PoC 재현 — 망관리자가 정답 상황을 즉시 지정, 고정 배분표, 조달 없음</td></tr>
+<tr><td style="font-weight: 700">제안</td><td style="font-weight: 700">에이전트 기반 오케스트레이터<sc-if value="{{extra}}" hint-placeholder-val="{{ true }}"> — LLM(Claude), 5개 MCP 서버 · 21개 도구</sc-if></td></tr>
+<tr><td style="font-weight: 700">공통 설정</td><td>PoC의 슬라이스 구성(eMBB·URLLC·mMTC), SLA 임계값, 트래픽 생성식, 배분 평활</td></tr>
+<tr><td style="font-weight: 700">용량</td><td>슬라이스당 기본 1.6, 조달 시 최대 2.6</td></tr>
+</tbody>
+</table>
+@@LOG@@
+</div>
+@@FORMULAS@@
+</div>
+
+<div data-area="오른쪽 열 (⑤ ⑥ 참고문헌)" data-mm="0" style="min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 76px">
+<section>
+<h2>⑤ 실험 결과</h2>
+<p style="margin: 0; font-size: 350px; line-height: 0.92; font-weight: 700; letter-spacing: -0.05em">51%</p>
+<p class="tx" style="margin: 16px 0 0; font-weight: 700">SLA 위반 감소 (평균 7.8 → 3.8회)</p>
+<sc-if value="{{extra}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 56px; display: flex; flex-direction: column; gap: 40px">
+<div><p class="num" style="margin: 0; font-size: 160px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">22 / 22</p><p class="tx" style="margin: 10px 0 0">용량이 모자란 스텝을 모두 자동 조달</p></div>
+<div><p class="num" style="margin: 0; font-size: 160px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">3 / 50</p><p class="tx" style="margin: 10px 0 0">망관리자 질의가 필요했던 스텝</p></div>
+<div><p class="num" style="margin: 0; font-size: 160px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">47 / 47</p><p class="tx" style="margin: 10px 0 0">자율 판단한 스텝의 상황인지 정확</p></div>
+</div>
+<table class="pt pn" style="margin-top: 44px; background: #FFFFFF">
+<thead>
+<tr><th>시드</th><th class="mu">기존 PoC<br>위반(회)</th><th>제안<br>위반(회)</th><th>조달<br>(회)</th><th>조달 비용<br>(USD)</th><th>망관리자<br>질의(회)</th></tr>
+</thead>
+<tbody>
+<tr><td>0</td><td class="mu">9</td><td style="font-weight: 700">3</td><td>5</td><td>4,550</td><td>0</td></tr>
+<tr><td>1</td><td class="mu">7</td><td style="font-weight: 700">3</td><td>2</td><td>2,500</td><td>0</td></tr>
+<tr><td>2</td><td class="mu">9</td><td style="font-weight: 700">5</td><td>6</td><td>5,225</td><td>0</td></tr>
+<tr><td>3</td><td class="mu">8</td><td style="font-weight: 700">4</td><td>5</td><td>4,975</td><td>2</td></tr>
+<tr><td>4</td><td class="mu">6</td><td style="font-weight: 700">4</td><td>4</td><td>3,750</td><td>1</td></tr>
+<tr><td style="font-weight: 700; border-top: 4px solid #161616">평균</td><td class="mu" style="font-weight: 700; border-top: 4px solid #161616">7.8</td><td style="font-weight: 700; border-top: 4px solid #161616">3.8</td><td style="font-weight: 700; border-top: 4px solid #161616">4.4</td><td style="font-weight: 700; border-top: 4px solid #161616">4,200</td><td style="font-weight: 700; border-top: 4px solid #161616">0.6</td></tr>
+</tbody>
+</table>
+</sc-if>
+<ul class="pb" style="margin-top: 40px">
+<li>모든 시드에서 위반이 줄었고, 평균 7.8회에서 3.8회로 51% 감소했다.</li>
+<sc-if value="{{extra}}" hint-placeholder-val="{{ true }}">
+<li>기존 PoC는 수요 압력 0.8 이상인 34스텝에서 용량을 늘릴 수단이 없었고, 제안 구조는 22스텝 모두에서 벤더를 조달했다.</li>
+<li>망관리자 질의는 50스텝 중 3스텝뿐이었다.</li>
+</sc-if>
+</ul>
+</section>
+
+<section>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 30px">
+<h2>⑥ 결론과 기여</h2>
+<div style="width: 95px; height: 95px; flex: none; background: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.15; color: #555555">QR<br>미정</div>
+</div>
+<ul class="pb">
+<li><b>폐루프 자동화</b> — FG-AINN PoC에 에이전트 계층을 더해 상황인지부터 용량 조달까지 사람 없이 돌게 했다.</li>
+<li><b>수요 압력 지표</b> — “배분 조정으로 충분한가, 용량 확보가 필요한가”를 식 2 하나로 판정한다.</li>
+<li><b>선택적 개입</b> — 상시 감시 대신, 상황 신뢰도가 낮을 때만 망관리자에게 묻는다.</li>
+<li><b>한계와 향후</b> — 검증이 응급 시나리오에 한정되어, 혼합 상황 실험과 FG-AINN 표준 기고 연계로 넓힌다.</li>
+</ul>
+</section>
+
+<section>
+<h2 style="font-size: 42.67px">참고문헌</h2>
+<div style="display: grid; grid-template-columns: 40px minmax(0, 1fr); row-gap: 8px; font-size: 24px; line-height: 1.3">
+<span>[1]</span><span>ITU-T Rec. Y.3061 (12/2023), Autonomous networks – Architecture framework.</span>
+<span>[2]</span><span>ITU-T FG-AINN, Technical Report: Proof-of-Concept activities, 2026.</span>
+<span>[3]</span><span>ITU-T FG-AINN, LS on FG-AINN 2026 work plan (FG-AINN-O-016), Dec. 2025.</span>
+<span>[4]</span><span>Anthropic, Model Context Protocol Specification, modelcontextprotocol.io, 2024.</span>
+</div>
+</section>
+</div>
+
+</div>
+
+<p data-area="사사" data-mm="16" style="height: 33px; flex: none; margin: 44px 113px 0; font-size: 24px; line-height: 1.3; color: #4A463E; white-space: nowrap">본 연구는 IITP(정보통신기획평가원)의 ‘Agentic AI 기반 종단간 완전자율형 네트워크 기술을 위한 Cross-SDO 표준 개발(RS-2026-25527078)’ 지원을 받음.</p>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#E0451F"},"showExtra":{"editor":"boolean","default":true},"$preview":{"width":3179,"height":4494}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const extra = this.props.showExtra ?? true;
+    return {
+      accent: this.props.accent ?? '#E0451F',
+      extra: extra,
+      noExtra: !extra
+    };
+  }
+}
+</script>
+</body>
+</html>
