@@ -33,6 +33,23 @@ elif VARIANT == "gemini":
     TOP, BOTTOM = HEADLINE + HEAD_RULE + 70, 4404
     PAD = 4
     H2_CSS = f"margin:0;padding:0 0 14px;border-bottom:3px solid #000000;color:{HEAD};font-size:60px;line-height:1.2;font-weight:700;text-align:center"
+elif VARIANT == "clear":
+    # 가독성형: 제목 띠 바로 아래 '한눈에 보기'(문제 → 제안 → 결과) 띠를 두고, 섹션은 번호 배지 + 굵은 밑줄 제목으로
+    # 읽는 순서(왼쪽 단 1–3, 오른쪽 단 4–7)를 드러낸다. 색은 남색 하나 + 회색, 주황은 SLA 경계에만.
+    NAVY, LIGHT, RULE, HEAD = "#17375E", "#EAF0F7", "#D3DCE8", "#17375E"
+    DARK, EXAMPLE, PAPER = "#0F2742", "#F4F6F9", "#F1F3F6"
+    LEFT_X, COL_GAP = 100, 100
+    LEFT_W = int(sys.argv[5]) if len(sys.argv) > 5 else 1560   # 그림이 많은 왼쪽 단을 넓게
+    COL_W = LEFT_W
+    RIGHT_W = 3179 - 2 * LEFT_X - COL_GAP - LEFT_W
+    RIGHT_X = LEFT_X + LEFT_W + COL_GAP
+    HEADLINE, HEAD_RULE = 440, 14
+    SUM_TOP = HEADLINE + HEAD_RULE + 44
+    SUM_H = int(sys.argv[4]) if len(sys.argv) > 4 else 442
+    TOP, BOTTOM = SUM_TOP + SUM_H + 56, 4494 - 56
+    PAD = 0
+    H2_CSS = (f"margin:0;padding:0 0 14px;border-bottom:6px solid {NAVY};color:{NAVY};font-size:56px;line-height:1.15;font-weight:700;"
+              "display:flex;align-items:center;gap:24px")
 else:
     # Aragon: 남색 제목 띠와 물결, 섹션 제목은 남색 막대
     NAVY, LIGHT, RULE, HEAD = "#1F3864", "#E9EEF6", "#D0D7E5", "#1F3864"
@@ -42,6 +59,9 @@ else:
     PAD = 24                       # template body inset (0.62 cm)
     H2_CSS = f"margin:0;height:76px;background:{NAVY};color:#FFFFFF;font-size:48px;line-height:76px;font-weight:700;text-align:center"
 IN_W = COL_W - 2 * PAD
+if VARIANT != "clear":
+    RIGHT_W = COL_W
+RIGHT_IN = RIGHT_W - 2 * PAD
 
 g.INK = NAVY
 g.BLUE = NAVY
@@ -54,12 +74,12 @@ def alert(html):
 
 def example(html):
     """Gemini의 exampleblock(연한 회색 바탕). 템플릿판에서는 그대로 둔다."""
-    if VARIANT != "gemini":
+    if VARIANT not in ("gemini", "clear"):
         return html
     return f'<div style="background: {EXAMPLE}; padding: 28px 36px">{html}</div>'
 
 def headline():
-    if VARIANT != "gemini":
+    if VARIANT not in ("gemini", "clear"):
         return ""
     logo = lambda t: (f'<div style="width: 300px; height: 220px; margin: 0 auto; background: #F5F6FA; display: flex; align-items: center; justify-content: center; '
                       f'text-align: center; font-size: 28px; line-height: 1.3; color: {NAVY}">{t}</div>')
@@ -73,6 +93,38 @@ def headline():
             f'<p style="margin: 6px 0 0; font-size: 36px; line-height: 1.3">한국공학대학교 컴퓨터전자공학과 · {{ljh040325, 2023531014, dhksejs235, *zeroplus}}@tukorea.ac.kr</p>'
             f'</div>{logo("IITP<br>로고")}</header>'
             f'<div style="position: absolute; left: 0px; top: {HEADLINE}px; width: 3179px; height: {HEAD_RULE}px; background: {DARK}"></div>')
+
+def summary():
+    """가독성형 '한눈에 보기' 띠: 문제 → 제안 → 결과. 문장과 수치는 본문(설계 문서)에 있는 그대로 다시 쓴다."""
+    if VARIANT != "clear":
+        return ""
+    chip = lambda t, bg, fg: (f'<span style="display: inline-block; padding: 6px 22px; background: {bg}; color: {fg}; font-size: 34px; line-height: 1.2; '
+                              f'font-weight: 700">{t}</span>')
+    def card(tag, title, text, bg, chip_bg):
+        return (f'<div style="background: {bg}; padding: 36px 40px; display: flex; flex-direction: column; gap: 18px">'
+                f'<p style="margin: 0">{chip(tag, chip_bg, "#FFFFFF")}</p>'
+                f'<p style="margin: 0; font-size: 48px; line-height: 1.2; font-weight: 700; color: {NAVY}">{title}</p>'
+                f'<p style="margin: 0; font-size: 38px; line-height: 1.38; color: {INK}">{text}</p></div>')
+    chevron = (f'<div style="display: flex; align-items: center; justify-content: center">'
+               f'<svg width="44" height="120" viewBox="0 0 44 120" aria-hidden="true"><path d="M4 4 L40 60 L4 116 Z" fill="{NAVY}"></path></svg></div>')
+    mini = lambda n, t: (f'<div style="display: grid; grid-template-columns: 210px minmax(0, 1fr); column-gap: 20px; align-items: center">'
+                         f'<p class="num" style="margin: 0; font-size: 60px; line-height: 1; font-weight: 700; white-space: nowrap">{n}</p>'
+                         f'<p style="margin: 0; font-size: 30px; line-height: 1.3; color: #DCE6F2">{t}</p></div>')
+    result = (f'<div style="background: {NAVY}; color: #FFFFFF; padding: 36px 40px; display: grid; grid-template-columns: auto minmax(0, 1fr); '
+              f'column-gap: 48px; row-gap: 22px; align-items: center">'
+              f'<div style="grid-column: 1 / 3; display: flex; align-items: center; gap: 24px">{chip("결과", "#FFFFFF", NAVY)}'
+              f'<span style="font-size: 34px; line-height: 1.2; color: #DCE6F2">응급 시나리오 · 시드 0~4로 5회</span></div>'
+              f'<div><p class="num" style="margin: 0; font-size: 190px; line-height: 0.9; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">51%</p>'
+              f'<p style="margin: 16px 0 0; font-size: 46px; line-height: 1.25; font-weight: 700">SLA 위반 감소</p>'
+              f'<p style="margin: 4px 0 0; font-size: 36px; line-height: 1.3; color: #DCE6F2">평균 7.8 → 3.8회</p></div>'
+              f'<div style="display: flex; flex-direction: column; gap: 18px; padding-left: 40px; border-left: 3px solid #4A6A90">'
+              f'{mini("22 / 22", "용량이 모자란 스텝을 모두 자동 조달")}{mini("3 / 50", "망관리자 질의가 필요했던 스텝")}{mini("47 / 47", "자율 판단한 스텝의 상황인지 정확")}</div></div>')
+    return (f'<div data-area="한눈에 보기" style="position: absolute; left: {LEFT_X}px; top: {SUM_TOP}px; width: {3179 - 2 * LEFT_X}px; height: {SUM_H}px; '
+            f'display: grid; grid-template-columns: minmax(0, 1fr) 76px minmax(0, 1fr) 76px minmax(0, 1.45fr)">'
+            + card("문제", "기존 PoC 구조의 두 한계", "망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.", PAPER, "#555555")
+            + chevron
+            + card("제안", "에이전트 4단계 폐루프", "FG-AINN PoC에 에이전트 계층을 더해 상황인지부터 용량 조달까지 사람 없이 돌게 했다.", LIGHT, NAVY)
+            + chevron + result + '</div>')
 
 def est(label, bold=False):
     return round(len(label) * (0.62 if bold else 0.58) * FS + 24)
@@ -238,14 +290,19 @@ def stat(num, label, size):
     return (f'<div><p class="num" style="margin: 0; font-size: {size}px; line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: {NAVY}; white-space: nowrap">{num}</p>'
             f'<p class="tx" style="margin: 10px 0 0">{label}</p></div>')
 
+_secno = [0]
 def section(title, body, area):
+    _secno[0] += 1
+    if VARIANT == "clear":   # 번호 배지로 읽는 순서를 보인다
+        title = (f'<span style="flex: none; width: 72px; height: 72px; background: {NAVY}; color: #FFFFFF; display: flex; align-items: center; '
+                 f'justify-content: center; font-size: 46px">{_secno[0]}</span><span>{title}</span>')
     return (f'<section data-area="{area}" style="display: flex; flex-direction: column">'
             f'<h2 class="bar">{title}</h2><div class="body">{body}</div></section>')
 
 S1 = section("연구 배경과 문제", f'''<ul class="pb">
 <li>AI 기반 망관리가 확산되지만, 에이전트에 자원관리를 전적으로 맡기기엔 신뢰와 위험부담 문제가 남아 있다.</li>
 <li>ITU-T FG-AINN(2024년 7월 SG13 설립)은 PoC로 5G 네트워크 슬라이싱의 AI 기반 관리를 시연했다.</li>
-<li>PoC 구조의 두 한계: 망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.</li>
+{"" if VARIANT == "clear" else "<li>PoC 구조의 두 한계: 망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.</li>"}
 </ul>
 <table class="pt" style="margin-top: 28px; table-layout: fixed">
 <thead><tr><th style="width: 190px; background: {LIGHT}; color: {NAVY}">구분</th><th style="width: 520px; background: {GREY}; color: #FFFFFF">기존 PoC 구조</th><th style="background: {NAVY}; color: #FFFFFF">제안 구조</th></tr></thead>
@@ -266,7 +323,7 @@ S2 = section("제안 구조 (그림 1)", f'''{diagram()}
 <p style="margin: 0"><b>Network Infra Layer</b> — 테스트베드의 RAN·코어·전송 네트워크</p>
 </div>''', "제안 구조")
 
-FORM_COLS, FORM_SIZE = ("minmax(0, 1.35fr) minmax(0, 1fr)", 46) if VARIANT == "gemini" else ("minmax(0, 1fr) minmax(0, 1fr)", 50)
+FORM_COLS, FORM_SIZE = ("minmax(0, 1.35fr) minmax(0, 1fr)", 46) if VARIANT in ("gemini", "clear") else ("minmax(0, 1fr) minmax(0, 1fr)", 50)
 FORMULAS = f'''<div style="display: grid; grid-template-columns: {FORM_COLS}; column-gap: 40px">
 {formula("식 1 — 상황 사후확률 (HMM 전진 필터)", "(식1)", EQ1, FORM_SIZE)}
 {formula("식 2 — 수요 압력", "(식2)", EQ2, FORM_SIZE)}
@@ -308,11 +365,11 @@ STATS = f'''<div style="display: flex; align-items: center; gap: 48px">
 {stat("47 / 47", "자율 판단한 스텝의 상황인지 정확", 120)}
 </div>'''
 
-S5 = section("실험 결과", f'''{alert(STATS)}
-<figure style="margin: 40px 0 0; display: flex; flex-direction: column; gap: 10px">
+S5 = section("실험 결과", f'''{"" if VARIANT == "clear" else alert(STATS)}
+<figure style="margin: {0 if VARIANT == "clear" else 40}px 0 0; display: flex; flex-direction: column; gap: 10px">
 {legend()}
 <p class="sm mu" style="margin: 8px 0 0">최대 슬라이스 부하율 (이용률 ÷ 임계값)</p>
-{chart()}
+{chart(RIGHT_IN)}
 <figcaption class="cap">그림 2. 응급 상황에서 기존 PoC 대비 스텝별 최대 슬라이스 부하율 (시드 3, 5회 중 평균에 가장 가까운 시드)</figcaption>
 </figure>
 <div style="margin-top: 34px; display: grid; grid-template-columns: 820px minmax(0, 1fr); column-gap: 44px; align-items: start">
@@ -372,8 +429,9 @@ body{{margin:0}}
 </style></head><body>
 <div class="ar">
 {headline()}
+{summary()}
 <div class="col" data-area="왼쪽 단" style="left: {LEFT_X}px">{S1}{S2}{S3}</div>
-<div class="col" data-area="오른쪽 단" style="left: {RIGHT_X}px">{S4}{S5}{S6}{S7}</div>
+<div class="col" data-area="오른쪽 단" style="left: {RIGHT_X}px; width: {RIGHT_W}px">{S4}{S5}{S6}{S7}</div>
 </div>
 </body></html>'''
 open(out_path, "w", encoding="utf-8").write(html)

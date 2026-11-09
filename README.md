@@ -22,6 +22,7 @@ A0포스터/
 │                               (PPTX는 템플릿 파일 그대로 + 내용 도형, PDF는 PowerPoint로 저장)
 ├─ Kensington템플릿/            같은 내용을 Kensington 템플릿(파란 띠 + 둥근 흰 패널, 김정훈 선배 포스터와 같은 틀)에
 ├─ Gemini디자인/                같은 구조(제목 띠 + 두 단)에 GitHub anishathalye/gemini 포스터 테마의 색·블록 규칙 적용
+├─ 가독성디자인/                제목 띠 아래 '한눈에 보기'(문제 → 제안 → 결과 51%) 띠 + 번호 붙은 섹션 1–7, 남색 한 가지
 ├─ Pretendard 글꼴 (A안 PPT용)/  A·D안 PPTX를 열 PC에 설치할 글꼴
 └─ 작업파일/
    ├─ a0-poster/project/        캔버스 원본 — Main(A) · Alt(B) · PosterC(C) · PosterD(D) .dc.html, canvas.json
@@ -85,6 +86,12 @@ bash run_ar.sh 60 gemini
 bash make_aragon.sh A0포스터_Gemini gemini     # → Gemini디자인/ (템플릿 없이 build_pptx.py로 그림)
 ```
 Gemini판 규칙(anishathalye/gemini 기본 색 테마): 제목 띠 #40739E, 띠 아래 선 #273C75, 블록 제목은 가운데 정렬 파랑 + 얇은 검정 구분선, 핵심 수치는 강조 블록(#E8F4FF), 수식은 예시 블록(#F5F6FA).
+가독성판(`clear`): 위에서 한 번에 문제·제안·결과가 읽히도록 '한눈에 보기' 띠를 두고, 섹션에 번호 배지(왼쪽 단 1–3, 오른쪽 단 4–7)를 붙였다.
+핵심 수치(51%, 22/22, 3/50, 47/47)는 띠로 옮겨 실험 결과 섹션에서는 뺐고, 그림이 많은 왼쪽 단을 넓게 했다(1560px, `gen_ar.py` 다섯째 인자).
+```bash
+bash run_ar.sh 60 clear
+bash make_aragon.sh A0포스터_가독성 clear       # → 가독성디자인/
+```
 본문은 맑은 고딕(모든 Windows에 있음)이라 PPTX를 어느 PC에서 열어도 줄바꿈이 같다.
 
 다른 안: A안 `gen_a3.py a3_template.html` → `Main`, 테마 `A3` / C안 `gen_c.py c_template.html` → `PosterC`, 테마 `C` / D안 `gen_d2.py` → `PosterD`, 테마 `D`
@@ -98,5 +105,5 @@ Gemini판 규칙(anishathalye/gemini 기본 색 테마): 제목 띠 #40739E, 띠
 ## 지금 상태 (2026-11-06)
 
 - B안 채택, C안 디자인 적용, 사사 삭제(지도교수 의견: 사사는 안 넣어도 됨, 지면이 남으면 참고문헌, 아니면 내용으로 채움) — 캔버스·`B안추가수정` 모두 반영
-- 2026-11-09 교수님 요청으로 PosterPresentations A0 템플릿 구조(제목 띠 + 두 단) 적용, Aragon 템플릿 선택 → `Aragon템플릿/`, 같은 날 Kensington판 → `Kensington템플릿/`, GitHub Gemini 테마판 → `Gemini디자인/`
+- 2026-11-09 교수님 요청으로 PosterPresentations A0 템플릿 구조(제목 띠 + 두 단) 적용, Aragon 템플릿 선택 → `Aragon템플릿/`, 같은 날 Kensington판 → `Kensington템플릿/`, GitHub Gemini 테마판 → `Gemini디자인/`, 가독성판 → `가독성디자인/`
 - 로고 2개와 QR은 아직 자리만 있음 (Aragon판에는 로고 자리 없음)

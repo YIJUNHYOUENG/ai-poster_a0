@@ -1,4 +1,4 @@
-# usage: make_aragon.sh <out stem> [aragon|kens|gemini]   (gemini는 템플릿 없이 새 슬라이드에 그린다)
+# usage: make_aragon.sh <out stem> [aragon|kens|gemini|clear]   (gemini·clear는 템플릿 없이 새 슬라이드에 그린다)
 # Aragon 템플릿판: 내용 HTML → 2배 스크린샷·도형 추출 → 템플릿 PPTX에 채우기 → PowerPoint로 PDF·PNG
 S="$(cd "$(dirname "$0")/.." && pwd)"   # 작업파일 폴더 (도구·원본)
 # Edge가 한글 경로를 못 열어서, 렌더링 중간 파일은 영문 경로에 둔다. 사용자 이름이 한글이면 A0_WORK 로 지정
@@ -7,7 +7,7 @@ mkdir -p "$R/render" "$R/ppt"
 E="${EDGE:-/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe}"   # 다른 위치면 EDGE 환경변수로 지정
 OUT="${1:-aragon}"
 VARIANT="${2:-aragon}"
-if [ "$VARIANT" = kens ]; then TPL=Kensington; THEME=KE; elif [ "$VARIANT" = gemini ]; then TPL=; THEME=GE; else TPL=Aragon; THEME=AR; fi
+if [ "$VARIANT" = kens ]; then TPL=Kensington; THEME=KE; elif [ "$VARIANT" = gemini ]; then TPL=; THEME=GE; elif [ "$VARIANT" = clear ]; then TPL=; THEME=CL; else TPL=Aragon; THEME=AR; fi
 python -I "$S/tools/gen_ar.py" "$R/render/poster.html" 60 "$VARIANT" >/dev/null
 "$E" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --virtual-time-budget=15000 --window-size=3179,4494 --user-data-dir="$R/edge-profile" --screenshot="$R/ppt/poster@2x.png" "file:///$R/render/poster.html" >/dev/null 2>&1
 python -I -c "

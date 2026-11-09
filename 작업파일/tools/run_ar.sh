@@ -1,4 +1,4 @@
-# usage: run_ar.sh [section gap px] [aragon|kens] — 템플릿판 내용 HTML을 만들고 영역별 넘침을 잰다
+# usage: run_ar.sh [section gap px] [aragon|kens|gemini|clear] — 템플릿판 내용 HTML을 만들고 영역별 넘침을 잰다
 S="$(cd "$(dirname "$0")/.." && pwd)"   # 작업파일 폴더 (도구·원본)
 # Edge가 한글 경로를 못 열어서, 렌더링 중간 파일은 영문 경로에 둔다. 사용자 이름이 한글이면 A0_WORK 로 지정
 R="${A0_WORK:-$(cygpath -m "${TEMP:-/tmp}")/a0-poster-work}"

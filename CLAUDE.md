@@ -15,7 +15,7 @@
 ## 작업 규칙
 
 - 채택안은 B안(`Alt.dc.html`) + C안 디자인. B안은 `tools/gen_b4.py`로 만든다. 직접 고친 내용도 생성기에 반영해야 다음에 다시 만들 때 유지된다.
-- 2026-11-09부터 교수님 요청 구조인 Aragon 템플릿판(`tools/gen_ar.py`, `make_aragon.sh`)이 주 작업 대상이다. 결과는 `Aragon템플릿/`에 넣는다. Kensington판은 같은 스크립트에 `kens` 인자, 결과는 `Kensington템플릿/`. Gemini판은 `gemini` 인자, 결과는 `Gemini디자인/`. 섹션 제목 막대·제목 띠는 템플릿 자리 표시자를 쓰고, 본문 글꼴은 맑은 고딕.
+- 2026-11-09부터 교수님 요청 구조인 Aragon 템플릿판(`tools/gen_ar.py`, `make_aragon.sh`)이 주 작업 대상이다. 결과는 `Aragon템플릿/`에 넣는다. Kensington판은 같은 스크립트에 `kens` 인자, 결과는 `Kensington템플릿/`. Gemini판은 `gemini` 인자, 결과는 `Gemini디자인/`. 가독성판은 `clear` 인자, 결과는 `가독성디자인/`. 섹션 제목 막대·제목 띠는 템플릿 자리 표시자를 쓰고, 본문 글꼴은 맑은 고딕.
 - 채택 이후 B안 수정본 PPTX·PDF는 `B안추가수정/`에 넣는다. 상위 폴더의 A·B·C·D안 파일(원본)은 건드리지 않는다.
 - 캔버스: https://claude.ai/artifact/FRuVTXMx42dGjnZ2pBf5Zf — 게시 전에 캔버스를 읽어 로컬 `작업파일/a0-poster/project/`와 같은지 확인한다. 게시는 root를 `작업파일/a0-poster`로 둔다.
 - 고친 뒤에는 `run_measure2.sh`(B·C안) 또는 `run_areas.sh`(A·D안)로 보강 켬(1)·끔(0) 둘 다 넘침을 확인한다.
