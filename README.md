@@ -106,4 +106,5 @@ bash make_aragon.sh A0포스터_가독성 clear       # → 가독성디자인/
 
 - B안 채택, C안 디자인 적용, 사사 삭제(지도교수 의견: 사사는 안 넣어도 됨, 지면이 남으면 참고문헌, 아니면 내용으로 채움) — 캔버스·`B안추가수정` 모두 반영
 - 2026-11-09 교수님 요청으로 PosterPresentations A0 템플릿 구조(제목 띠 + 두 단) 적용, Aragon 템플릿 선택 → `Aragon템플릿/`, 같은 날 Kensington판 → `Kensington템플릿/`, GitHub Gemini 테마판 → `Gemini디자인/`, 가독성판 → `가독성디자인/`
+- 2026-11-09 논문 PDF와 대조해 템플릿 4판(Aragon·Kensington·Gemini·가독성) 내용을 논문 기준으로 맞춤 — 논문에 없는 수치 삭제, P 정의·PoC 설명 추가 (자세한 목록은 CLAUDE.md). B안추가수정·캔버스는 아직 예전 내용
 - 로고 2개와 QR은 아직 자리만 있음 (Aragon판에는 로고 자리 없음)

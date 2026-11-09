@@ -114,11 +114,11 @@ def summary():
               f'column-gap: 48px; row-gap: 22px; align-items: center">'
               f'<div style="grid-column: 1 / 3; display: flex; align-items: center; gap: 24px">{chip("결과", "#FFFFFF", NAVY)}'
               f'<span style="font-size: 34px; line-height: 1.2; color: #DCE6F2">응급 시나리오 · 시드 0~4로 5회</span></div>'
-              f'<div><p class="num" style="margin: 0; font-size: 190px; line-height: 0.9; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap">51%</p>'
+              f'<div><p class="num" style="margin: 0; font-size: 190px; line-height: 0.9; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap"><span style="font-size: 0.32em; letter-spacing: 0">약 </span>50%</p>'
               f'<p style="margin: 16px 0 0; font-size: 46px; line-height: 1.25; font-weight: 700">SLA 위반 감소</p>'
               f'<p style="margin: 4px 0 0; font-size: 36px; line-height: 1.3; color: #DCE6F2">평균 7.8 → 3.8회</p></div>'
               f'<div style="display: flex; flex-direction: column; gap: 18px; padding-left: 40px; border-left: 3px solid #4A6A90">'
-              f'{mini("22 / 22", "용량이 모자란 스텝을 모두 자동 조달")}{mini("3 / 50", "망관리자 질의가 필요했던 스텝")}{mini("47 / 47", "자율 판단한 스텝의 상황인지 정확")}</div></div>')
+              f'{mini("22 / 22", "용량이 모자란 스텝을 모두 자동 조달")}{mini("3 / 50", "망관리자 질의가 필요했던 스텝")}</div></div>')
     return (f'<div data-area="한눈에 보기" style="position: absolute; left: {LEFT_X}px; top: {SUM_TOP}px; width: {3179 - 2 * LEFT_X}px; height: {SUM_H}px; '
             f'display: grid; grid-template-columns: minmax(0, 1fr) 76px minmax(0, 1fr) 76px minmax(0, 1.45fr)">'
             + card("문제", "기존 PoC 구조의 두 한계", "망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.", PAPER, "#555555")
@@ -187,7 +187,7 @@ def diagram(W=IN_W, H=707):
 
 # ---------- 에이전트 4단계 폐루프: 2 × 2, 시계 방향 ----------
 STAGES = {
-    "tl": ("상황인지", "Monitoring · Diagnosis", "Telemetry MCP로 슬라이스별 수요 <i>x</i>를 모으고 상황 <i>s</i>(평시·응급·대형 행사·IoT 급증)를 추론", "식 1, 같은 상황 유지 확률 0.98"),
+    "tl": ("상황인지", "Monitoring · Diagnosis", "Telemetry MCP로 슬라이스별 수요 <i>x</i>를 모으고 상황 <i>s</i>(일반 트래픽 요구·응급상황·고대역 요구·버스트 IoT 트래픽)를 추론", "식 1, 같은 상황 유지 확률 0.98"),
     "tr": ("자원배분 결정", "Planning", "이용률 임계값 <i>θ</i>와 용량 <i>C</i>로 목표 배분을 산출해 Orchestrator MCP로 적용하고 수요 압력 <i>P</i>를 계산", "식 2, <i>P</i>가 1을 넘으면 배분만으로는 SLA 불가"),
     "br": ("자원할당", "Execution", "<i>P</i>가 임계값 이상이면 압력을 가장 크게 낮추는 슬라이스의 용량을 마켓플레이스에서 조달", "응급 0.8 · 그 밖 1.0, 벤더는 PoC 점수식으로 선택"),
     "bl": ("판단검증", "Verification", "상황 신뢰도가 0.9 미만일 때만 망관리자에게 질의하고 결과를 Diagnosis로 되돌리며, SLA 충족 여부를 벤더 평판에 반영", "신뢰도 = 사후확률 최댓값"),
@@ -233,9 +233,6 @@ EQ1 = (f'<i>b</i>{M("<i>t</i>")}(<i>s</i>) ∝ <i>p</i>(<i>x</i>{M("<i>t</i>")} 
        f'<i>A</i>{M("<i>s</i>′<i>s</i>")} <i>b</i>{M("<i>t</i>−1")}(<i>s</i>′)')
 EQ2 = (f'<i>P</i>{M("<i>t</i>")} = {SUM("<i>i</i>")} <span style="display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.15; font-size: 0.85em">'
        f'<span style="padding: 0 8px 4px"><i>x</i>{M("<i>i</i>,<i>t</i>")}</span><span style="border-top: 3px solid {INK}; padding: 4px 8px 0"><i>θ</i>{M("<i>i</i>")} <i>C</i>{M("<i>i</i>,<i>t</i>")}</span></span>')
-SV = (f'<i>S<sub style="font-size: 0.6em">v</sub></i> = 100[<i>w</i>{M("Q")} (∑{M("<i>j</i>")} <i>ω<sub style="font-size: 0.6em">j</sub> q<sub style="font-size: 0.6em">v,j</sub></i> / '
-      f'∑{M("<i>j</i>")} <i>ω<sub style="font-size: 0.6em">j</sub></i>) + <i>w</i>{M("P")} <i>p<sub style="font-size: 0.6em">v</sub></i> + <i>w</i>{M("R")} <i>r<sub style="font-size: 0.6em">v</sub></i>/5]')
-DC = f'Δ<i>C<sub style="font-size: 0.6em">k</sub></i> = 0.25 · <i>B</i>{M("<i>v</i>*")} / <i>B</i>{M("ref")}'
 
 def formula(label, tag, eq, size):
     return (f'<div><p class="cap" style="margin: 0; font-weight: 700; color: {MUTED}">{label}</p>'
@@ -301,17 +298,16 @@ def section(title, body, area):
 
 S1 = section("연구 배경과 문제", f'''<ul class="pb">
 <li>AI 기반 망관리가 확산되지만, 에이전트에 자원관리를 전적으로 맡기기엔 신뢰와 위험부담 문제가 남아 있다.</li>
-<li>ITU-T FG-AINN(2024년 7월 SG13 설립)은 PoC로 5G 네트워크 슬라이싱의 AI 기반 관리를 시연했다.</li>
+<li>ITU-T FG-AINN(2024년 7월 설립)의 PoC는 5G 네트워크 슬라이싱 중심의 네트워크 디지털 트윈 시뮬레이션으로, 마켓플레이스에서 벤더별 자원할당을 추천한다.</li>
 {"" if VARIANT == "clear" else "<li>PoC 구조의 두 한계: 망관리자가 상황을 직접 지정해야 하고, 마켓플레이스가 오케스트레이터와 분리돼 용량 확보를 사람이 한다.</li>"}
 </ul>
 <table class="pt" style="margin-top: 28px; table-layout: fixed">
 <thead><tr><th style="width: 190px; background: {LIGHT}; color: {NAVY}">구분</th><th style="width: 520px; background: {GREY}; color: #FFFFFF">기존 PoC 구조</th><th style="background: {NAVY}; color: #FFFFFF">제안 구조</th></tr></thead>
 <tbody>
 <tr><td style="font-weight: 700">상황인지</td><td class="mu">망관리자가 직접 지정</td><td style="font-weight: 700; color: {NAVY}">HMM 전진 필터로 자동 추론</td></tr>
-<tr><td style="font-weight: 700">자원배분</td><td class="mu">상황별 고정 배분표</td><td style="font-weight: 700; color: {NAVY}">수요·잡음·임계값으로 산출</td></tr>
+<tr><td style="font-weight: 700">자원배분</td><td class="mu">Orchestrator가 고정 비율로 할당</td><td style="font-weight: 700; color: {NAVY}">수요·잡음·임계값으로 산출</td></tr>
 <tr><td style="font-weight: 700">용량 확보</td><td class="mu">마켓플레이스 분리, 사람이 조달</td><td style="font-weight: 700; color: {NAVY}">수요 압력 기준 자동 조달</td></tr>
 <tr><td style="font-weight: 700">사람 개입</td><td class="mu">상시 감시</td><td style="font-weight: 700; color: {NAVY}">신뢰도 0.9 미만일 때만 질의</td></tr>
-<tr><td style="font-weight: 700">결정 기록</td><td class="mu">상태 이력만 저장</td><td style="font-weight: 700; color: {NAVY}">결정 근거와 호출 순서까지 기록</td></tr>
 </tbody></table>''', "연구 배경과 문제")
 
 S2 = section("제안 구조 (그림 1)", f'''{diagram()}
@@ -329,40 +325,34 @@ FORMULAS = f'''<div style="display: grid; grid-template-columns: {FORM_COLS}; co
 {formula("식 2 — 수요 압력", "(식2)", EQ2, FORM_SIZE)}
 </div>
 <p class="sm mu" style="margin: 18px 0 0"><i>b</i> = 상황 <i>s</i>의 사후확률, <i>A</i> = 상황 전이확률, <i>x</i> = 슬라이스별 수요, <i>θ<sub>i</sub></i> = 슬라이스 <i>i</i>의 이용률 임계값(eMBB 0.9 · URLLC 1.2 · mMTC 0.8), <i>C<sub>i,t</sub></i> = 슬라이스 <i>i</i>의 용량(기본 1.6, 조달로 최대 2.6).</p>
-<div style="margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; column-gap: 48px; row-gap: 6px">
-<span class="cap" style="width: 100%; font-weight: 700; color: {MUTED}">PoC 벤더 점수식과 조달 용량</span>
-<span class="math" style="font-size: 36px">{SV}</span>
-<span class="math" style="font-size: 36px">{DC}</span>
-<span class="sm mu">URLLC <i>B</i><sub>ref</sub> = 500 Mbps</span>
-</div>'''
+<p class="sm" style="margin: 14px 0 0"><b><i>P</i></b> = 모든 슬라이스가 SLA를 지키는 데 필요한 최소 용량 비율. 1을 초과하면 자원배분을 바꿔도 SLA를 준수할 수 없어 용량을 늘려야 한다.</p>
+<p class="sm" style="margin: 10px 0 0">벤더 선택 기준은 비교분석의 공정성과 신뢰성을 위해 PoC의 점수 수식을 따른다.</p>'''
 
 S3 = section("에이전트 4단계 폐루프", f'''{loop()}
 <div style="margin-top: 30px">{example(FORMULAS)}</div>
-<p class="tx" style="margin: 22px 0 0; font-weight: 700">하위 에이전트끼리는 직접 호출하지 않고 Supervisor Agent를 거치므로 판단 근거가 모두 기록에 남는다.</p>''', "에이전트 4단계 폐루프")
+<p class="tx" style="margin: 22px 0 0; font-weight: 700">하위 에이전트 간 호출은 Supervisor Agent를 통해 제어된다.</p>''', "에이전트 4단계 폐루프")
 
 S4 = section("실험 설정", f'''<table class="pt">
 <tbody>
 <tr><td style="width: 190px; font-weight: 700">시나리오</td><td>응급 상황이 처음부터 이어지는 10스텝 (1스텝 = 15분)</td></tr>
 <tr><td style="font-weight: 700">반복</td><td>시드 0~4로 5회, 같은 시드에는 두 방식에 같은 트래픽</td></tr>
-<tr><td style="font-weight: 700">비교군</td><td class="mu">기존 PoC 재현 — 망관리자가 정답 상황을 즉시 지정, 고정 배분표, 조달 없음</td></tr>
-<tr><td style="font-weight: 700">제안</td><td style="font-weight: 700; color: {NAVY}">에이전트 기반 오케스트레이터 — LLM(Claude), 5개 MCP 서버 · 21개 도구</td></tr>
+<tr><td style="font-weight: 700">비교군</td><td class="mu">기존 PoC 재현 — 망관리자가 정답 상황을 즉시 지정, 고정 비율 배분, 조달 없음</td></tr>
+<tr><td style="font-weight: 700">제안</td><td style="font-weight: 700; color: {NAVY}">에이전트 기반 오케스트레이터 — LLM(Claude), 그림 1의 MCP 서버</td></tr>
 <tr><td style="font-weight: 700">공통 설정</td><td>PoC의 슬라이스 구성(eMBB·URLLC·mMTC), SLA 임계값, 트래픽 생성식, 배분 평활</td></tr>
 <tr><td style="font-weight: 700">용량</td><td>슬라이스당 기본 1.6, 조달 시 최대 2.6</td></tr>
 </tbody></table>''', "실험 설정")
 
-SEED = [("0", "9", "3", "5", "4,550", "0"), ("1", "7", "3", "2", "2,500", "0"), ("2", "9", "5", "6", "5,225", "0"),
-        ("3", "8", "4", "5", "4,975", "2"), ("4", "6", "4", "4", "3,750", "1")]
-seed_rows = "".join(f'<tr><td>{a}</td><td class="mu">{b}</td><td style="font-weight: 700; color: {NAVY}">{c}</td><td>{d}</td><td>{e}</td><td>{f}</td></tr>' for a, b, c, d, e, f in SEED)
-seed_rows += ''.join([f'<tr>'] + [f'<td style="font-weight: 700; border-top: 4px solid {NAVY}{"; color: " + NAVY if i == 2 else ""}">{v}</td>' for i, v in enumerate(("평균", "7.8", "3.8", "4.4", "4,200", "0.6"))] + ['</tr>'])
+SEED = [("0", "9", "3", "0"), ("1", "7", "3", "0"), ("2", "9", "5", "0"), ("3", "8", "4", "2"), ("4", "6", "4", "1")]
+seed_rows = "".join(f'<tr><td>{a}</td><td class="mu">{b}</td><td style="font-weight: 700; color: {NAVY}">{c}</td><td>{d}</td></tr>' for a, b, c, d in SEED)
+seed_rows += ''.join([f'<tr>'] + [f'<td style="font-weight: 700; border-top: 4px solid {NAVY}{"; color: " + NAVY if i == 2 else ""}">{v}</td>' for i, v in enumerate(("평균", "7.8", "3.8", "0.6"))] + ['</tr>'])
 
 STATS = f'''<div style="display: flex; align-items: center; gap: 48px">
-<p class="num" style="margin: 0; font-size: 230px; line-height: 0.95; font-weight: 700; letter-spacing: -0.04em; color: {NAVY}; white-space: nowrap">51%</p>
+<p class="num" style="margin: 0; font-size: 230px; line-height: 0.95; font-weight: 700; letter-spacing: -0.04em; color: {NAVY}; white-space: nowrap"><span style="font-size: 0.32em; letter-spacing: 0">약 </span>50%</p>
 <p style="margin: 0; font-size: 56px; line-height: 1.25; font-weight: 700">SLA 위반 감소<br><span style="font-size: 44px; font-weight: 400; color: {MUTED}">(평균 7.8 → 3.8회)</span></p>
 </div>
-<div style="margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 44px; align-items: start">
+<div style="margin-top: 36px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 44px; align-items: start">
 {stat("22 / 22", "용량이 모자란 스텝을 모두 자동 조달", 120)}
 {stat("3 / 50", "망관리자 질의가 필요했던 스텝", 120)}
-{stat("47 / 47", "자율 판단한 스텝의 상황인지 정확", 120)}
 </div>'''
 
 S5 = section("실험 결과", f'''{"" if VARIANT == "clear" else alert(STATS)}
@@ -372,13 +362,13 @@ S5 = section("실험 결과", f'''{"" if VARIANT == "clear" else alert(STATS)}
 {chart(RIGHT_IN)}
 <figcaption class="cap">그림 2. 응급 상황에서 기존 PoC 대비 스텝별 최대 슬라이스 부하율 (시드 3, 5회 중 평균에 가장 가까운 시드)</figcaption>
 </figure>
-<div style="margin-top: 34px; display: grid; grid-template-columns: 820px minmax(0, 1fr); column-gap: 44px; align-items: start">
+<div style="margin-top: 34px; display: grid; grid-template-columns: 600px minmax(0, 1fr); column-gap: 44px; align-items: start">
 <table class="pt pn">
-<thead><tr><th>시드</th><th>기존 PoC<br>위반(회)</th><th>제안<br>위반(회)</th><th>조달<br>(회)</th><th>조달 비용<br>(USD)</th><th>망관리자<br>질의(회)</th></tr></thead>
+<thead><tr><th>시드</th><th>기존 PoC<br>위반(회)</th><th>제안<br>위반(회)</th><th>망관리자<br>질의(회)</th></tr></thead>
 <tbody>{seed_rows}</tbody></table>
 <ul class="pb">
-<li>모든 시드에서 위반이 줄었고, 평균 7.8회에서 3.8회로 51% 감소했다.</li>
-<li>기존 PoC는 수요 압력 0.8 이상인 34스텝에서 용량을 늘릴 수단이 없었고, 제안 구조는 22스텝 모두에서 벤더를 조달했다.</li>
+<li>모든 시드에서 위반이 줄었고, 평균 7.8회에서 3.8회로 약 50% 감소했다.</li>
+<li>기존 PoC는 용량을 늘릴 수단이 없었고, 제안 구조는 위반된 서비스를 제공할 수 있는 다른 벤더를 통해 인간의 개입 없이 자원을 재할당했다.</li>
 <li>망관리자 질의는 50스텝 중 3스텝뿐이었다.</li>
 </ul>
 </div>''', "실험 결과")
@@ -388,7 +378,7 @@ S6 = section("결론과 기여", f'''<div style="display: grid; grid-template-co
 <li><b style="color: {NAVY}">폐루프 자동화</b> — FG-AINN PoC에 에이전트 계층을 더해 상황인지부터 용량 조달까지 사람 없이 돌게 했다.</li>
 <li><b style="color: {NAVY}">수요 압력 지표</b> — “배분 조정으로 충분한가, 용량 확보가 필요한가”를 식 2 하나로 판정한다.</li>
 <li><b style="color: {NAVY}">선택적 개입</b> — 상시 감시 대신, 상황 신뢰도가 낮을 때만 망관리자에게 묻는다.</li>
-<li><b style="color: {NAVY}">한계와 향후</b> — 검증이 응급 시나리오에 한정되어, 혼합 상황 실험과 FG-AINN 표준 기고 연계로 넓힌다.</li>
+<li><b style="color: {NAVY}">한계와 향후</b> — 검증이 응급 시나리오에 한정되어, FG-AINN 표준 진행을 확인하며 제안 구조의 신뢰도를 높여 갈 것이다.</li>
 </ul>
 <div style="width: 95px; height: 95px; background: {LIGHT}; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 24px; line-height: 1.15; color: {MUTED}">QR<br>미정</div>
 </div>''', "결론과 기여")
