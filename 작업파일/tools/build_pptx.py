@@ -15,7 +15,8 @@ work = sys.argv[1]
 out_path = sys.argv[2]
 Y_SHIFT = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0   # fraction of line height to nudge text down
 d = json.load(open(os.path.join(work, 'layout.json'), encoding='utf-8'))
-FONT = 'Pretendard' if (len(sys.argv) > 4 and sys.argv[4] in ('A3', 'D')) else 'Noto Sans KR'
+THEME_ARG = sys.argv[4] if len(sys.argv) > 4 else 'A'
+FONT = 'Pretendard' if THEME_ARG in ('A3', 'D') else '맑은 고딕' if THEME_ARG == 'GE' else 'Noto Sans KR'
 SLIDE_W, SLIDE_H = 30276000, 42804000           # A0 portrait, 841 x 1189 mm
 K = SLIDE_W / d['W']                              # EMU per CSS px
 
@@ -76,6 +77,11 @@ for i, (kind, o) in enumerate(items):
         x0, y0 = o['x'] - pad, o['y'] - pad
         w, h = o['w'] + 2 * pad, o['h'] + 2 * pad
         crop = big.crop((int(x0 * 2), int(y0 * 2), int((x0 + w) * 2), int((y0 + h) * 2)))
+        if THEME_ARG == 'GE':   # white → transparent, so formulas sit on the tinted example block
+            from PIL import ImageChops, ImageOps
+            r_, g_, b_ = crop.split()
+            crop = crop.convert('RGBA')
+            crop.putalpha(ImageOps.invert(ImageChops.darker(ImageChops.darker(r_, g_), b_)))
         p = os.path.join(work, f'img_{i}.png'); crop.save(p)
         pic = slide.shapes.add_picture(p, E(x0), E(y0), E(w), E(h))
         pic.name = {'math': '수식 ', 'legend': '범례 기호 ', 'icon': '화살촉 '}[o['kind']] + str(i + 1)
@@ -154,6 +160,8 @@ elif THEME == 'A3':   # spec card layout: legend and y-axis title are drawn insi
     NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '1F4E79', '8C8C8C', 'E07B00', '444444', 'E1E6EC', 'FFFFFF', 'FFFFFF', False
 elif THEME == 'C':   # white page, blue proposal; the y-axis title is already page text
     NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '1A4BE0', '8C8C8C', 'E07B00', '555555', 'E0E0E0', 'FFFFFF', 'FFFFFF', False
+elif THEME == 'GE':   # Gemini colours (anishathalye/gemini): blue proposal, orange edge; the y-axis title is already page text
+    NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '40739E', '8C8C8C', 'E07B00', '555555', 'E0E4EC', 'FFFFFF', 'FFFFFF', False
 elif THEME == 'D':   # problem-stage-evidence sheet: ink proposal on paper, vermilion edge; the y-axis title is already page text
     NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '161616', '948E80', 'E0451F', '6B655A', 'DDD7CB', 'FFFFFF', 'FFFFFF', False
 else:

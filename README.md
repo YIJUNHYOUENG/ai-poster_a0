@@ -21,6 +21,7 @@ A0포스터/
 ├─ Aragon템플릿/                교수님 요청 구조: PosterPresentations A0 Aragon 템플릿 두 단에 B안 내용
 │                               (PPTX는 템플릿 파일 그대로 + 내용 도형, PDF는 PowerPoint로 저장)
 ├─ Kensington템플릿/            같은 내용을 Kensington 템플릿(파란 띠 + 둥근 흰 패널, 김정훈 선배 포스터와 같은 틀)에
+├─ Gemini디자인/                같은 구조(제목 띠 + 두 단)에 GitHub anishathalye/gemini 포스터 테마의 색·블록 규칙 적용
 ├─ Pretendard 글꼴 (A안 PPT용)/  A·D안 PPTX를 열 PC에 설치할 글꼴
 └─ 작업파일/
    ├─ a0-poster/project/        캔버스 원본 — Main(A) · Alt(B) · PosterC(C) · PosterD(D) .dc.html, canvas.json
@@ -80,7 +81,10 @@ Kensington판은 같은 스크립트에 `kens`를 붙인다 (`작업파일/templ
 ```bash
 bash run_ar.sh 60 kens
 bash make_aragon.sh A0포스터_Kensington kens   # → Kensington템플릿/
+bash run_ar.sh 60 gemini
+bash make_aragon.sh A0포스터_Gemini gemini     # → Gemini디자인/ (템플릿 없이 build_pptx.py로 그림)
 ```
+Gemini판 규칙(anishathalye/gemini 기본 색 테마): 제목 띠 #40739E, 띠 아래 선 #273C75, 블록 제목은 가운데 정렬 파랑 + 얇은 검정 구분선, 핵심 수치는 강조 블록(#E8F4FF), 수식은 예시 블록(#F5F6FA).
 본문은 맑은 고딕(모든 Windows에 있음)이라 PPTX를 어느 PC에서 열어도 줄바꿈이 같다.
 
 다른 안: A안 `gen_a3.py a3_template.html` → `Main`, 테마 `A3` / C안 `gen_c.py c_template.html` → `PosterC`, 테마 `C` / D안 `gen_d2.py` → `PosterD`, 테마 `D`
@@ -94,5 +98,5 @@ bash make_aragon.sh A0포스터_Kensington kens   # → Kensington템플릿/
 ## 지금 상태 (2026-11-06)
 
 - B안 채택, C안 디자인 적용, 사사 삭제(지도교수 의견: 사사는 안 넣어도 됨, 지면이 남으면 참고문헌, 아니면 내용으로 채움) — 캔버스·`B안추가수정` 모두 반영
-- 2026-11-09 교수님 요청으로 PosterPresentations A0 템플릿 구조(제목 띠 + 두 단) 적용, Aragon 템플릿 선택 → `Aragon템플릿/`, 같은 날 Kensington판도 추가 → `Kensington템플릿/`
+- 2026-11-09 교수님 요청으로 PosterPresentations A0 템플릿 구조(제목 띠 + 두 단) 적용, Aragon 템플릿 선택 → `Aragon템플릿/`, 같은 날 Kensington판 → `Kensington템플릿/`, GitHub Gemini 테마판 → `Gemini디자인/`
 - 로고 2개와 QR은 아직 자리만 있음 (Aragon판에는 로고 자리 없음)

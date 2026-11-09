@@ -21,6 +21,18 @@ if VARIANT == "kens":
     TOP, BOTTOM = round(17.8 * CM), round(114.2 * CM)
     PAD = 46                       # 패널 둥근 테두리 안쪽 여백
     H2_CSS = f"margin:0;height:68px;color:{HEAD};font-size:48px;line-height:68px;font-weight:700;text-align:center"
+elif VARIANT == "gemini":
+    # Gemini (github.com/anishathalye/gemini) 기본 색 테마: 파랑 #40739E 제목 띠와 짙은 파랑 #273C75 띠 아래 선,
+    # 가운데 정렬 파랑 블록 제목 + 얇은 검정 구분선, 흰 본문, 강조 블록 #E8F4FF, 예시 블록 #F5F6FA
+    NAVY, LIGHT, RULE, HEAD = "#40739E", "#E8F4FF", "#D9DEE8", "#40739E"
+    DARK, EXAMPLE = "#273C75", "#F5F6FA"
+    LEFT_X, COL_GAP = 110, 100
+    COL_W = (3179 - 2 * LEFT_X - COL_GAP) // 2
+    RIGHT_X = LEFT_X + COL_W + COL_GAP
+    HEADLINE, HEAD_RULE = 520, 16
+    TOP, BOTTOM = HEADLINE + HEAD_RULE + 70, 4404
+    PAD = 4
+    H2_CSS = f"margin:0;padding:0 0 14px;border-bottom:3px solid #000000;color:{HEAD};font-size:60px;line-height:1.2;font-weight:700;text-align:center"
 else:
     # Aragon: 남색 제목 띠와 물결, 섹션 제목은 남색 막대
     NAVY, LIGHT, RULE, HEAD = "#1F3864", "#E9EEF6", "#D0D7E5", "#1F3864"
@@ -33,6 +45,34 @@ IN_W = COL_W - 2 * PAD
 
 g.INK = NAVY
 g.BLUE = NAVY
+
+def alert(html):
+    """Gemini의 alertblock(연한 파랑 바탕). 템플릿판에서는 그대로 둔다."""
+    if VARIANT != "gemini":
+        return html
+    return f'<div style="background: {LIGHT}; padding: 34px 40px">{html}</div>'
+
+def example(html):
+    """Gemini의 exampleblock(연한 회색 바탕). 템플릿판에서는 그대로 둔다."""
+    if VARIANT != "gemini":
+        return html
+    return f'<div style="background: {EXAMPLE}; padding: 28px 36px">{html}</div>'
+
+def headline():
+    if VARIANT != "gemini":
+        return ""
+    logo = lambda t: (f'<div style="width: 300px; height: 220px; margin: 0 auto; background: #F5F6FA; display: flex; align-items: center; justify-content: center; '
+                      f'text-align: center; font-size: 28px; line-height: 1.3; color: {NAVY}">{t}</div>')
+    return (f'<header style="position: absolute; left: 0px; top: 0px; width: 3179px; height: {HEADLINE}px; background: {NAVY}; color: #F5F6FA; '
+            f'display: grid; grid-template-columns: 420px minmax(0, 1fr) 420px; align-items: center">'
+            f'{logo("한국공학대학교<br>로고")}'
+            f'<div style="text-align: center">'
+            f'<p style="margin: 0; font-size: 100px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em">에이젠틱 AI를 이용한 자율망에서<br>동적 자원할당 자동화를 위한 구조 및 설계</p>'
+            f'<p style="margin: 14px 0 0; font-size: 40px; line-height: 1.3">Architecture and Design for Automated Dynamic Resource Allocation in Autonomous Network using Agentic AI</p>'
+            f'<p style="margin: 16px 0 0; font-size: 50px; line-height: 1.3; font-weight: 700">이준형, 김재경, 최윤경, 김양중*<span style="font-size: 32px; font-weight: 400"> (* 교신저자)</span></p>'
+            f'<p style="margin: 6px 0 0; font-size: 36px; line-height: 1.3">한국공학대학교 컴퓨터전자공학과 · {{ljh040325, 2023531014, dhksejs235, *zeroplus}}@tukorea.ac.kr</p>'
+            f'</div>{logo("IITP<br>로고")}</header>'
+            f'<div style="position: absolute; left: 0px; top: {HEADLINE}px; width: 3179px; height: {HEAD_RULE}px; background: {DARK}"></div>')
 
 def est(label, bold=False):
     return round(len(label) * (0.62 if bold else 0.58) * FS + 24)
@@ -226,10 +266,10 @@ S2 = section("제안 구조 (그림 1)", f'''{diagram()}
 <p style="margin: 0"><b>Network Infra Layer</b> — 테스트베드의 RAN·코어·전송 네트워크</p>
 </div>''', "제안 구조")
 
-S3 = section("에이전트 4단계 폐루프", f'''{loop()}
-<div style="margin-top: 30px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 40px">
-{formula("식 1 — 상황 사후확률 (HMM 전진 필터)", "(식1)", EQ1, 50)}
-{formula("식 2 — 수요 압력", "(식2)", EQ2, 50)}
+FORM_COLS, FORM_SIZE = ("minmax(0, 1.35fr) minmax(0, 1fr)", 46) if VARIANT == "gemini" else ("minmax(0, 1fr) minmax(0, 1fr)", 50)
+FORMULAS = f'''<div style="display: grid; grid-template-columns: {FORM_COLS}; column-gap: 40px">
+{formula("식 1 — 상황 사후확률 (HMM 전진 필터)", "(식1)", EQ1, FORM_SIZE)}
+{formula("식 2 — 수요 압력", "(식2)", EQ2, FORM_SIZE)}
 </div>
 <p class="sm mu" style="margin: 18px 0 0"><i>b</i> = 상황 <i>s</i>의 사후확률, <i>A</i> = 상황 전이확률, <i>x</i> = 슬라이스별 수요, <i>θ<sub>i</sub></i> = 슬라이스 <i>i</i>의 이용률 임계값(eMBB 0.9 · URLLC 1.2 · mMTC 0.8), <i>C<sub>i,t</sub></i> = 슬라이스 <i>i</i>의 용량(기본 1.6, 조달로 최대 2.6).</p>
 <div style="margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; column-gap: 48px; row-gap: 6px">
@@ -237,7 +277,10 @@ S3 = section("에이전트 4단계 폐루프", f'''{loop()}
 <span class="math" style="font-size: 36px">{SV}</span>
 <span class="math" style="font-size: 36px">{DC}</span>
 <span class="sm mu">URLLC <i>B</i><sub>ref</sub> = 500 Mbps</span>
-</div>
+</div>'''
+
+S3 = section("에이전트 4단계 폐루프", f'''{loop()}
+<div style="margin-top: 30px">{example(FORMULAS)}</div>
 <p class="tx" style="margin: 22px 0 0; font-weight: 700">하위 에이전트끼리는 직접 호출하지 않고 Supervisor Agent를 거치므로 판단 근거가 모두 기록에 남는다.</p>''', "에이전트 4단계 폐루프")
 
 S4 = section("실험 설정", f'''<table class="pt">
@@ -255,7 +298,7 @@ SEED = [("0", "9", "3", "5", "4,550", "0"), ("1", "7", "3", "2", "2,500", "0"), 
 seed_rows = "".join(f'<tr><td>{a}</td><td class="mu">{b}</td><td style="font-weight: 700; color: {NAVY}">{c}</td><td>{d}</td><td>{e}</td><td>{f}</td></tr>' for a, b, c, d, e, f in SEED)
 seed_rows += ''.join([f'<tr>'] + [f'<td style="font-weight: 700; border-top: 4px solid {NAVY}{"; color: " + NAVY if i == 2 else ""}">{v}</td>' for i, v in enumerate(("평균", "7.8", "3.8", "4.4", "4,200", "0.6"))] + ['</tr>'])
 
-S5 = section("실험 결과", f'''<div style="display: flex; align-items: center; gap: 48px">
+STATS = f'''<div style="display: flex; align-items: center; gap: 48px">
 <p class="num" style="margin: 0; font-size: 230px; line-height: 0.95; font-weight: 700; letter-spacing: -0.04em; color: {NAVY}; white-space: nowrap">51%</p>
 <p style="margin: 0; font-size: 56px; line-height: 1.25; font-weight: 700">SLA 위반 감소<br><span style="font-size: 44px; font-weight: 400; color: {MUTED}">(평균 7.8 → 3.8회)</span></p>
 </div>
@@ -263,7 +306,9 @@ S5 = section("실험 결과", f'''<div style="display: flex; align-items: center
 {stat("22 / 22", "용량이 모자란 스텝을 모두 자동 조달", 120)}
 {stat("3 / 50", "망관리자 질의가 필요했던 스텝", 120)}
 {stat("47 / 47", "자율 판단한 스텝의 상황인지 정확", 120)}
-</div>
+</div>'''
+
+S5 = section("실험 결과", f'''{alert(STATS)}
 <figure style="margin: 40px 0 0; display: flex; flex-direction: column; gap: 10px">
 {legend()}
 <p class="sm mu" style="margin: 8px 0 0">최대 슬라이스 부하율 (이용률 ÷ 임계값)</p>
@@ -326,6 +371,7 @@ body{{margin:0}}
 .ar .num{{font-variant-numeric:tabular-nums}}
 </style></head><body>
 <div class="ar">
+{headline()}
 <div class="col" data-area="왼쪽 단" style="left: {LEFT_X}px">{S1}{S2}{S3}</div>
 <div class="col" data-area="오른쪽 단" style="left: {RIGHT_X}px">{S4}{S5}{S6}{S7}</div>
 </div>
