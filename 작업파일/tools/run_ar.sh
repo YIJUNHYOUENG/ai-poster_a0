@@ -1,10 +1,10 @@
-# usage: run_ar.sh [section gap px] — Aragon 템플릿판 내용 HTML을 만들고 영역별 넘침을 잰다
+# usage: run_ar.sh [section gap px] [aragon|kens] — 템플릿판 내용 HTML을 만들고 영역별 넘침을 잰다
 S="$(cd "$(dirname "$0")/.." && pwd)"   # 작업파일 폴더 (도구·원본)
 # Edge가 한글 경로를 못 열어서, 렌더링 중간 파일은 영문 경로에 둔다. 사용자 이름이 한글이면 A0_WORK 로 지정
 R="${A0_WORK:-$(cygpath -m "${TEMP:-/tmp}")/a0-poster-work}"
 mkdir -p "$R/render" "$R/ppt"
 E="${EDGE:-/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe}"   # 다른 위치면 EDGE 환경변수로 지정
-python -I "$S/tools/gen_ar.py" "$R/render/poster.html" "${1:-60}" >/dev/null
+python -I "$S/tools/gen_ar.py" "$R/render/poster.html" "${1:-60}" "${2:-aragon}" >/dev/null
 python -I -c "
 import sys; p=sys.argv[1]; s=open(p+'/render/poster.html',encoding='utf-8').read(); js=open(sys.argv[2]+'/tools/measure_areas.js',encoding='utf-8').read()
 open(p+'/render/areas.html','w',encoding='utf-8').write(s.replace('</body>','<script>'+js+'</script></body>'))" "$R" "$S"

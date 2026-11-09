@@ -9,14 +9,26 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_c as g
 
 out_path = sys.argv[1]
+VARIANT = sys.argv[3] if len(sys.argv) > 3 else "aragon"
 CM = 3179 / 84.1                   # px per cm
-NAVY, LIGHT, RULE = "#1F3864", "#E9EEF6", "#D0D7E5"
 INK, MUTED, GREY, ORANGE = "#222222", "#555555", "#8C8C8C", "#E07B00"
 FS = 29.33                         # 22 pt: text inside figures, tables and boxes
-COL_W = round(39.7 * CM)           # template column width
-LEFT_X, RIGHT_X = round(1.7 * CM), round(42.6 * CM)
-TOP, BOTTOM = round(15.6 * CM), round(114.6 * CM)
-PAD = 24                           # template body inset (0.62 cm)
+if VARIANT == "kens":
+    # Kensington: 파란 제목 띠, 두 단은 둥근 흰 패널, 섹션 제목은 막대 없이 가운데 정렬 글자
+    NAVY, LIGHT, RULE, HEAD = "#2F5597", "#DEE6F4", "#C9D3E6", "#203864"
+    COL_W = round(40.0 * CM)
+    LEFT_X, RIGHT_X = round(1.4 * CM), round(42.8 * CM)
+    TOP, BOTTOM = round(17.8 * CM), round(114.2 * CM)
+    PAD = 46                       # 패널 둥근 테두리 안쪽 여백
+    H2_CSS = f"margin:0;height:68px;color:{HEAD};font-size:48px;line-height:68px;font-weight:700;text-align:center"
+else:
+    # Aragon: 남색 제목 띠와 물결, 섹션 제목은 남색 막대
+    NAVY, LIGHT, RULE, HEAD = "#1F3864", "#E9EEF6", "#D0D7E5", "#1F3864"
+    COL_W = round(39.7 * CM)       # template column width
+    LEFT_X, RIGHT_X = round(1.7 * CM), round(42.6 * CM)
+    TOP, BOTTOM = round(15.6 * CM), round(114.6 * CM)
+    PAD = 24                       # template body inset (0.62 cm)
+    H2_CSS = f"margin:0;height:76px;background:{NAVY};color:#FFFFFF;font-size:48px;line-height:76px;font-weight:700;text-align:center"
 IN_W = COL_W - 2 * PAD
 
 g.INK = NAVY
@@ -294,7 +306,7 @@ html = f'''<!doctype html>
 body{{margin:0}}
 .ar{{position:relative;width:3179px;height:4494px;background:#FFFFFF;font-family:'Malgun Gothic',sans-serif;color:{INK};word-break:keep-all;letter-spacing:-0.01em}}
 .ar .col{{position:absolute;top:{TOP}px;width:{COL_W}px;height:{BOTTOM - TOP}px;display:flex;flex-direction:column;justify-content:space-between;gap:{GAP}px}}
-.ar h2.bar{{margin:0;height:76px;background:{NAVY};color:#FFFFFF;font-size:48px;line-height:76px;font-weight:700;text-align:center}}
+.ar h2.bar{{{H2_CSS}}}
 .ar .body{{padding:28px {PAD}px 0}}
 .ar .tx{{font-size:36px;line-height:1.35;text-wrap:pretty}}
 .ar .sm{{font-size:32px;line-height:1.35;text-wrap:pretty}}

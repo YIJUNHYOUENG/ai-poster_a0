@@ -25,15 +25,14 @@ K = SLIDE_W / d['W']                              # EMU per CSS px
 def E(px): return Emu(int(round(px * K)))
 def rgb(h): return RGBColor.from_string(h)
 
-# 섹션 제목 막대(h2.bar)는 템플릿의 막대 자리 표시자로 넣고, HTML 쪽 막대 면과 글은 건너뛴다
-bar_texts_all = [t for t in d['texts'] if t['tag'] == 'H2']
+# 섹션 제목(h2.bar)은 템플릿의 섹션 제목 자리 표시자로 넣고, HTML 쪽 막대 면과 글은 건너뛴다
+VARIANT = 'kens' if sys.argv[4] == 'KE' else 'aragon'
+bar_texts = sorted([t for t in d['texts'] if t['tag'] == 'H2'], key=lambda t: (t['x'], t['y']))
 is_bar = lambda r: r.get('color') == '1F3864' and 70 <= r['h'] <= 82 and r['w'] > 1400
-bar_rects = sorted([r for r in d['rects'] if is_bar(r)], key=lambda r: (r['x'], r['y']))
-bar_texts = sorted(bar_texts_all, key=lambda t: (t['x'], t['y']))
-assert len(bar_rects) == len(bar_texts) == 7, (len(bar_rects), len(bar_texts))
-bars = [(r['x'], r['y'], r['w'], r['h']) for r in bar_rects]
+assert len(bar_texts) == 7, len(bar_texts)
+bars = [(t['x'], t['y'], t['w'], t['h']) for t in bar_texts]
 titles = [''.join(rn['text'] for rn in t['runs'] if rn['text'] != '\n') for t in bar_texts]
-prs, slide = aragon_setup.open_template(TEMPLATE, K, bars, titles)
+prs, slide = aragon_setup.open_template(TEMPLATE, K, bars, titles, VARIANT)
 d['rects'] = [r for r in d['rects'] if not is_bar(r)]
 d['texts'] = [t for t in d['texts'] if t['tag'] != 'H2']
 
@@ -86,6 +85,11 @@ for i, (kind, o) in enumerate(items):
         x0, y0 = o['x'] - pad, o['y'] - pad
         w, h = o['w'] + 2 * pad, o['h'] + 2 * pad
         crop = big.crop((int(x0 * 2), int(y0 * 2), int((x0 + w) * 2), int((y0 + h) * 2)))
+        # white → transparent, so formulas sit on the template's tinted panels without a white patch
+        from PIL import ImageChops, ImageOps
+        r_, g_, b_ = crop.split()
+        crop = crop.convert('RGBA')
+        crop.putalpha(ImageOps.invert(ImageChops.darker(ImageChops.darker(r_, g_), b_)))
         p = os.path.join(work, f'img_{i}.png'); crop.save(p)
         pic = slide.shapes.add_picture(p, E(x0), E(y0), E(w), E(h))
         pic.name = {'math': '수식 ', 'legend': '범례 기호 ', 'icon': '화살촉 '}[o['kind']] + str(i + 1)
@@ -164,6 +168,8 @@ elif THEME == 'A3':   # spec card layout: legend and y-axis title are drawn insi
     NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '1F4E79', '8C8C8C', 'E07B00', '444444', 'E1E6EC', 'FFFFFF', 'FFFFFF', False
 elif THEME == 'C':   # white page, blue proposal; the y-axis title is already page text
     NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '1A4BE0', '8C8C8C', 'E07B00', '555555', 'E0E0E0', 'FFFFFF', 'FFFFFF', False
+elif THEME == 'KE':   # Kensington template: blue proposal, orange edge; the y-axis title is already page text
+    NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '2F5597', '8C8C8C', 'E07B00', '555555', 'E0E4EC', 'FFFFFF', 'FFFFFF', False
 elif THEME == 'AR':   # Aragon template: navy proposal, orange edge; the y-axis title is already page text
     NAVY, GRAY, ORANGE, MUTED, GRID, HOLLOW, RIM, YTITLE = '1F3864', '8C8C8C', 'E07B00', '555555', 'E0E4EC', 'FFFFFF', 'FFFFFF', False
 elif THEME == 'D':   # problem-stage-evidence sheet: ink proposal on paper, vermilion edge; the y-axis title is already page text

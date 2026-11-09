@@ -12,9 +12,16 @@ from pptx.oxml.ns import qn
 from lxml import etree
 
 CM = 360000
-BODY_IDX = (10, 26, 28, 30, 96, 155)          # 빈 본문 자리 표시자
-BAR_LEFT, BAR_RIGHT = (11, 20, 154), (25, 27, 29)
 EA = "맑은 고딕"
+# 템플릿별 자리 표시자 번호와 제목 띠 배치 (x, y, w, h cm · 글자 pt)
+TEMPLATES = {
+    "aragon": dict(body=(10, 26, 28, 30, 96, 155), bars_left=(11, 20, 154), bars_right=(25, 27, 29),
+                   title=(153, (4.0, 0.5, 76.1, 6.2), 56, 28), authors=(151, (4.0, 7.5, 76.1, 1.6), 36, 26),
+                   affil=(150, (4.0, 9.25, 76.1, 1.3), 26)),
+    "kens": dict(body=(28, 29, 30, 31, 32, 33, 34), bars_left=(15, 17, 18), bars_right=(19, 20, 21, 22),
+                 title=(12, (4.0, 1.0, 76.1, 6.8), 64, 30), authors=(11, (4.0, 8.5, 76.1, 1.8), 40, 28),
+                 affil=(10, (4.0, 10.6, 76.1, 1.4), 30)),
+}
 
 TITLE = ["에이젠틱 AI를 이용한 자율망에서", "동적 자원할당 자동화를 위한 구조 및 설계"]
 SUBTITLE = "Architecture and Design for Automated Dynamic Resource Allocation in Autonomous Network using Agentic AI"
@@ -45,12 +52,14 @@ def _set_lines(tf, lines):
             _ea(r)
 
 
-def open_template(path, K, bars, bar_texts):
-    """bars: [(x, y, w, h) in CSS px] of the HTML section bars; bar_texts: their titles in the same order."""
+def open_template(path, K, bars, bar_texts, variant="aragon"):
+    """bars: [(x, y, w, h) in CSS px] of the HTML section titles; bar_texts: their titles in the same order."""
+    cfg = TEMPLATES[variant]
+    BAR_LEFT, BAR_RIGHT = cfg["bars_left"], cfg["bars_right"]
     prs = Presentation(path)
     slide = prs.slides[0]
     ph = {p.placeholder_format.idx: p for p in slide.placeholders}
-    for idx in BODY_IDX:
+    for idx in cfg["body"]:
         if idx in ph:
             el = ph[idx]._element; el.getparent().remove(el)
 
@@ -58,12 +67,15 @@ def open_template(path, K, bars, bar_texts):
         shape.left, shape.top, shape.width, shape.height = Emu(int(x_cm * CM)), Emu(int(y_cm * CM)), Emu(int(w_cm * CM)), Emu(int(h_cm * CM))
 
     # 제목 띠: 제목 2줄 + 영문 제목, 저자, 소속·이메일
-    place(ph[153], 4.0, 0.5, 76.1, 6.2)
-    _set_lines(ph[153].text_frame, [[(TITLE[0], 56, True, None)], [(TITLE[1], 56, True, None)], [(SUBTITLE, 28, False, None)]])
-    place(ph[151], 4.0, 7.5, 76.1, 1.6)
-    _set_lines(ph[151].text_frame, [[(AUTHORS, 36, True, None), (AUTHOR_NOTE, 26, False, None)]])
-    place(ph[150], 4.0, 9.25, 76.1, 1.3)
-    _set_lines(ph[150].text_frame, [[(AFFIL, 26, False, None)]])
+    idx, box, big, sub = cfg["title"]
+    place(ph[idx], *box)
+    _set_lines(ph[idx].text_frame, [[(TITLE[0], big, True, None)], [(TITLE[1], big, True, None)], [(SUBTITLE, sub, False, None)]])
+    idx, box, big, note = cfg["authors"]
+    place(ph[idx], *box)
+    _set_lines(ph[idx].text_frame, [[(AUTHORS, big, True, None), (AUTHOR_NOTE, note, False, None)]])
+    idx, box, size = cfg["affil"]
+    place(ph[idx], *box)
+    _set_lines(ph[idx].text_frame, [[(AFFIL, size, False, None)]])
 
     # 섹션 제목 막대: 왼쪽 단 3개, 오른쪽 단 4개
     order = sorted(range(len(bars)), key=lambda i: (bars[i][0] > 1500, bars[i][1]))
